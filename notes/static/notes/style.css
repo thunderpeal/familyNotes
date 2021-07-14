@@ -34,3 +34,29 @@ body{
   .active {
     background-color: #464BB1; /* Add an active/current color */
   }
+  .notes{
+    width: 100%;
+    margin: 0 auto;
+  }
+  .note{
+    border: black 2px solid;
+    background-color: #dddddd;
+    color: black;
+    overflow: hidden;
+    width: 200px;
+    height: 200px;
+    margin: 20px;
+    /*float:left;
+*/
+  }
+
+
+
+#container {
+    }
+#item {
+    }
+#item:hover {
+
+      border: dashed;
+    }

@@ -1,12 +1,15 @@
 {% extends 'notes/basic.html' %}
+{% load static %}
 {% block content %}
     {% if notes_list %}
-
-    <ul>
+    <div class="notes" id="container">
     {% for note in notes_list %}
-        <li>{{ note.message }}</li>
+        <div class="note" id="item">
+            {{ note.message }}
+        </div>
+    <script src={% static 'notes/script.js' %}></script>
     {% endfor %}
-    </ul>
+    </div>
 {% else %}
     <p>No notes are available.</p>
 {% endif %}
