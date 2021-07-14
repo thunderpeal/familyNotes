@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'bootstrap4',
     'notes.apps.NotesConfig',
     'django.contrib.admin',
     'django.contrib.auth',

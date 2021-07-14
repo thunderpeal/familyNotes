@@ -1,0 +1,12 @@
+{% extends 'notes/basic.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+<h1>Добавление записки</h1>
+<form method="post">
+{% csrf_token %}
+{% bootstrap_form form layout='horizontal' %}
+{% buttons submit='Добавить' %}{% endbuttons %}
+</form>
+{% endblock %}

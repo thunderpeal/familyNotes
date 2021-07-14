@@ -60,3 +60,13 @@ body{
 
       border: dashed;
     }
+
+.foot{
+  color: white;
+  background-color: #555555;
+  font-size: 30px;
+  bottom: 10px;
+  overflow: hidden;
+  position: fixed;
+
+}
