@@ -1,30 +1,19 @@
-# This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
-#   * Rearrange models' order
-#   * Make sure each model has one field with primary_key=True
-#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
-#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
-# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 
 from django.forms import inlineformset_factory
 
-#create own user-class
 
-class UserAccount(models.Model):
+class NoteGroup(models.Model):
     id = models.SmallAutoField(primary_key=True)
-    login = models.CharField(unique=True, max_length=25)
-    password = models.CharField(unique=True, max_length=25)
-    nickname = models.CharField(unique=True, max_length=25)
-    email = models.CharField(unique=True, max_length=50)
-    phonenumber = models.CharField(unique=True, max_length=10)
+    group_name = models.CharField(max_length=25)
+    password = models.CharField(max_length=25)
 
-    def __str__(self):
-        return self.nickname
 
-    class Meta:
-        db_table = 'user_account'
+class CustomUser(AbstractUser):
+    phone_number = models.CharField(unique=True, max_length=10, null=True, blank=True)
+    note_group = models.ForeignKey(NoteGroup, on_delete=models.DO_NOTHING, null=True, blank=True)
 
 
 class SNote(models.Model):
@@ -32,24 +21,25 @@ class SNote(models.Model):
     message = models.TextField()
     color = models.CharField(max_length=20, blank=True, null=True)
     heading = models.CharField(max_length=25, blank=True, null=True)
-    datetime = models.DateTimeField()
-    author = models.ForeignKey('UserAccount', models.DO_NOTHING, db_column='author', related_name='noteAuthor')
-    to_whom = models.ForeignKey('UserAccount', models.DO_NOTHING, db_column='to_whom', blank=True, null=True,
-                                related_name='toWhom')
+    datetime = models.DateTimeField(auto_now_add=True)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='noteAuthor')
+    is_for_group = models.BooleanField(default=False)
+    to_whom = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True, related_name='toWhom',
+                                default=settings.AUTH_USER_MODEL)
 
     class Meta:
-        db_table = 's_note'
+        ordering = ['datetime']
 
 
 class SComment(models.Model):
     id = models.SmallAutoField(primary_key=True)
-    note = models.ForeignKey('SNote', db_column='note', on_delete=models.CASCADE)
-    author = models.ForeignKey('UserAccount', models.DO_NOTHING, db_column='author')
+    note = models.ForeignKey(SNote, on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     message = models.CharField(max_length=50)
-    datetime = models.DateTimeField()
+    datetime = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.message
 
     class Meta:
-        db_table = 's_comment'
-
-
-
+        ordering = ['datetime']

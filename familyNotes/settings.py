@@ -1,3 +1,4 @@
+
 """
 Django settings for familyNotes project.
 
@@ -13,6 +14,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -31,14 +33,13 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'bootstrap4',
-    'notes.apps.NotesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'notes.apps.NotesConfig'
 ]
 
 MIDDLEWARE = [
@@ -89,6 +90,8 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
+
+AUTH_USER_MODEL = 'notes.CustomUser'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
