@@ -1,4 +1,4 @@
-body{
+/*body{
     background-color: #fecf4b;
 
   }
@@ -9,22 +9,8 @@ body{
     justify-content: center;
     margin-top: -8px;
   }
-  .icon-bar {
-    width: 30%; /* Full-width */
-    background-color: #555555; /* Dark-grey background */
-    overflow: auto; /* Overflow due to float */
-  }
 
-  .icon-bar a {
 
-    float: left; /* Float links side by side */
-    text-align: center; /* Center-align text */
-    width: 20%; /* Equal width (5 icons with 20% width each = 100%) */
-    padding: 15px 0; /* Some top and bottom padding */
-    transition: all 0.5s ease; /* Add transition for hover effects */
-    color: white; /* White text color */
-    font-size: 29px; /* Increased font size */
-  }
 
   .icon-bar a:hover {
     background-color: #ddd;
@@ -32,7 +18,7 @@ body{
   }
 
   .active {
-    background-color: #464BB1; /* Add an active/current color */
+    background-color: #464BB1;
   }
   .notes{
     width: 100%;
@@ -46,8 +32,7 @@ body{
     width: 200px;
     height: 200px;
     margin: 20px;
-    /*float:left;
-*/
+
   }
 
 
@@ -69,4 +54,4 @@ body{
   overflow: hidden;
   position: fixed;
 
-}
+}*/

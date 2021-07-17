@@ -6,7 +6,7 @@
 <h1>Добавление записки</h1>
 <form method="post">
 {% csrf_token %}
-{% bootstrap_form form layout='horizontal' %}
-{% buttons submit='Добавить' %}{% endbuttons %}
+{{ form.as_p }}
+<input class="button" type="submit" value="submit">
 </form>
 {% endblock %}
