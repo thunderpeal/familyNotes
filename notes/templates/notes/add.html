@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h1>Добавление записки</h1>
+<h1>Добавление записки</h1><a href="{% url 'notes' %}">&#8592;Back</a>
 <form method="post">
 {% csrf_token %}
 {{ form.as_p }}
