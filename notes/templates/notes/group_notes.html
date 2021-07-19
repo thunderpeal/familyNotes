@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block content %}
+
     {% if request.user.note_group %}
         {% if notes_list %}
         {% for note in notes_list %}
@@ -16,9 +17,14 @@
         {% endif %}
     {% else %}
         <p>Seems like you are not in group yet. Wanna enter one? </p>
-        <a>ENTER GROUP FORM</a>
+        <form method="POST" action="">
+            {% csrf_token %}
+            {{ form.as_p}}
+            <input type="submit" value="Login">
+        </form>
+        <br>
         <p>Or you can create you own one</p>
-        <a>CREATE GROUP FORM</a>
+        <a href="{% url 'group-create' %}">CREATE GROUP FORM</a>
         <br>
     {% endif %}
 

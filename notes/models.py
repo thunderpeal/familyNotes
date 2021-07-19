@@ -1,15 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser, UserManager
+from django.contrib.auth.models import AbstractUser
 from django.conf import settings
-from django.utils.translation import ugettext_lazy as _
-
-from .managers import CustomUserManager
-
-from django.forms import inlineformset_factory
 
 
 class NoteGroup(models.Model):
-    id = models.SmallAutoField(primary_key=True)
+    id = models.BigAutoField(primary_key=True)
     group_name = models.CharField(max_length=25)
     password = models.CharField(max_length=25)
 
@@ -22,11 +17,9 @@ class CustomUser(AbstractUser):
     note_group = models.ForeignKey(NoteGroup, on_delete=models.DO_NOTHING, null=True, blank=True)
     group_admin = models.BooleanField(default=False)
 
-    #objects = CustomUserManager()
-
 
 class SNote(models.Model):
-    id = models.SmallAutoField(primary_key=True)
+    id = models.BigAutoField(primary_key=True)
     heading = models.CharField(max_length=25, blank=True, null=True)
     message = models.TextField()
     datetime = models.DateTimeField(auto_now_add=True)
@@ -46,7 +39,7 @@ class SNote(models.Model):
 
 
 class SComment(models.Model):
-    id = models.SmallAutoField(primary_key=True)
+    id = models.BigAutoField(primary_key=True)
     note = models.ForeignKey(SNote, on_delete=models.CASCADE)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     message = models.CharField(max_length=50)

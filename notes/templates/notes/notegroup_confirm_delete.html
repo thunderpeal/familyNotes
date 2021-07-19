@@ -1,0 +1,10 @@
+{% extends 'notes/basic.html' %}
+
+{% block content %}
+    <a href="{% url 'home' %}">&#8592;Back</a>
+    <form method="post">
+        {% csrf_token %}
+        <p>Are you sure you want to delete "{{ group }}"?</p>
+    <input type="submit" value="Confirm">
+</form>
+{% endblock %}

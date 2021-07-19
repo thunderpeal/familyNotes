@@ -11,12 +11,12 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LogoutView
 from django.contrib.auth import login
-from .forms import SignUpForm
+from .forms import SignUpForm, GroupSignInForm
 from django.http import HttpResponse
 
 
 class CustomLoginView(LoginView):
-    template_name = 'notes/login.html'
+    template_name = 'notes/user_login.html'
     fields = '__all__'
     redirect_authenticated_user = True
     success_url = reverse_lazy('notes')
@@ -27,7 +27,7 @@ class CustomLogoutView(LogoutView):
 
 
 class UserRegistration(FormView):
-    template_name = 'notes/register.html'
+    template_name = 'notes/user_registration.html'
     form_class = SignUpForm
     success_url = reverse_lazy('notes')
 
@@ -46,7 +46,7 @@ class UserRegistration(FormView):
 class MyNotesList(LoginRequiredMixin, ListView):
     model = SNote
     context_object_name = 'notes_list'
-    template_name = "notes/index.html"
+    template_name = "notes/my_notes.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -56,22 +56,9 @@ class MyNotesList(LoginRequiredMixin, ListView):
         return context
 
 
-class GroupNotesList(LoginRequiredMixin, ListView):
-    model = SNote
-    context_object_name = 'notes_list'
-    template_name = "notes/home.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        authors = CustomUser.objects.filter(Q(note_group=self.request.user.note_group)
-                                            & ~Q(note_group=None))
-        context['notes_list'] = SNote.objects.filter(Q(is_for_group=True) & Q(author__in=authors))
-        return context
-
-
 class NoteAdd(LoginRequiredMixin, CreateView):
     model = SNote
-    template_name = 'notes/add.html'
+    template_name = 'notes/note_add.html'
     fields = ['heading', 'message', 'to_whom', 'is_for_group']
     success_url = reverse_lazy('notes')
 
@@ -108,7 +95,7 @@ class NoteDelete(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('notes')
 
 
-class NoteGroupMembers(LoginRequiredMixin, ListView):
+class NoteGroupMembersList(LoginRequiredMixin, ListView):
     model = CustomUser
     context_object_name = 'group_members'
     template_name = "notes/group_members.html"
@@ -117,6 +104,7 @@ class NoteGroupMembers(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         group_members = CustomUser.objects.filter(Q(note_group=self.request.user.note_group))
         context['group_members'] = group_members
+        context['group'] = self.request.user.note_group
         return context
 
 
@@ -126,13 +114,18 @@ def group_member_delete(request, user_id):
     if user.group_admin:
         members = CustomUser.objects.filter(Q(note_group=user.note_group) &
                                             Q(group_admin=False))
-        new_admin = members[0]
-        new_admin.group_admin = True
-        new_admin.save()
+        if members:
+            new_admin = members[0]
+            new_admin.group_admin = True
+            new_admin.save()
+            user.note_group = None
+            user.save()
+        else:
+            group = user.note_group
+            user.note_group = None
+            user.save()
+            group.delete()
         user.group_admin = False
-
-    user.note_group = None
-    user.save()
 
     return redirect('home')
 
@@ -142,4 +135,48 @@ class NoteGroupDelete(LoginRequiredMixin, DeleteView):
     context_object_name = 'group'
     success_url = reverse_lazy('home')
 
-    #add disable group for members logic
+    def delete(self, request, *args, **kwargs):
+        members = CustomUser.objects.filter(note_group=self.request.user.note_group)
+        group_notes = SNote.objects.filter(Q(is_for_group=True) & Q(author__in=members))
+        for note in group_notes:
+            note.delete()
+        for member in members:
+            member.note_group = None
+            member.group_admin = False
+            member.save()
+
+        return super(NoteGroupDelete, self).delete(request, *args, **kwargs)
+
+
+def group_notes_view(request):
+    if request.method == 'POST':
+        form = GroupSignInForm(request.POST)
+        if form.is_valid():
+            group = form.save(commit=False)
+            group.save()
+            user = request.user
+            user.note_group = group
+            user.save()
+    else:
+        form = GroupSignInForm()
+
+    authors = CustomUser.objects.filter(Q(note_group=request.user.note_group)
+                                        & ~Q(note_group=None))
+    group_notes = SNote.objects.filter(Q(is_for_group=True) & Q(author__in=authors))
+    context = {'form': form, 'notes_list': group_notes}
+    return render(request, 'notes/group_notes.html', context)
+
+
+class NoteGroupCreate(LoginRequiredMixin, CreateView):
+    model = NoteGroup
+    template_name = 'notes/group_add.html'
+    fields = '__all__'
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        user = self.request.user
+        print(form)
+        user.note_group = form.save()
+        user.group_admin = True
+        user.save()
+        return super(NoteGroupCreate, self).form_valid(form)

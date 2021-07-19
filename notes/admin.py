@@ -6,4 +6,3 @@ admin.site.register(CustomUser)
 admin.site.register(NoteGroup)
 admin.site.register(SNote)
 admin.site.register(SComment)
-# Register your models here.

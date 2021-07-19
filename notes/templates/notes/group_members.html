@@ -2,10 +2,15 @@
 {% load static %}
 
 {% block content %}
+    {% if request.user.group_admin %}
+    <a href="{% url 'group-delete' group.id %}">DELETE GROUP</a>
+    <br>
+    <br>
+    {% endif %}
     {% if request.user.note_group %}
         {% for member in group_members %}
             {{ member.username }}
-            {% if request.user.group_admin and member.id != request.user.id %}
+            {% if request.user.group_admin %}
                 <a href="{% url 'group-member-delete' member.id %}">Delete</a>
             {% endif %}
             <br>
