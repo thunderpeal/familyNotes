@@ -1,0 +1,20 @@
+{% extends 'notes/basic.html' %}
+{% load static %}
+
+{% block content %}
+    {% if request.user.note_group %}
+        {% for member in group_members %}
+            {{ member.username }}
+            {% if request.user.group_admin and member.id != request.user.id %}
+                <a href="{% url 'group-member-delete' member.id %}">Delete</a>
+            {% endif %}
+            <br>
+        {% endfor %}
+    {% else %}
+        <p>You are not in group yet. Follow <a href="{% url 'home' %}">HERE</a> if you want to join or create one</p>
+    {% endif %}
+{% endblock %}
+
+{% block footer %}
+    <a href="{% url 'add' %}"><div class="foot fas fa-plus"></div></a>
+{% endblock %}

@@ -6,7 +6,6 @@
 <form method="post" action="">
 {% csrf_token %}
 {{ form.as_p }}
-    <a href="{% url 'note-delete' note.id %}">&#215;</a>
 <input type="submit" value="Save changes">
 </form>
 {% endblock %}

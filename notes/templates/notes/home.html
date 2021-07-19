@@ -1,0 +1,29 @@
+{% extends 'notes/basic.html' %}
+{% load static %}
+
+{% block content %}
+    {% if request.user.note_group %}
+        {% if notes_list %}
+        {% for note in notes_list %}
+            {{ note.message }}
+            <a href="{% url 'edit' note.id %}">Edit</a>
+            <a href="{% url 'note-delete' note.id %}">&#215;</a>
+            <script src={% static 'notes/script.js' %}></script>
+            <br>
+            {% endfor %}
+        {% else %}
+            <p>No notes are available.</p>
+        {% endif %}
+    {% else %}
+        <p>Seems like you are not in group yet. Wanna enter one? </p>
+        <a>ENTER GROUP FORM</a>
+        <p>Or you can create you own one</p>
+        <a>CREATE GROUP FORM</a>
+        <br>
+    {% endif %}
+
+{% endblock %}
+
+{% block footer %}
+    <a href="{% url 'add' %}"><div class="foot fas fa-plus"></div></a>
+{% endblock %}
