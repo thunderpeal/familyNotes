@@ -5,7 +5,6 @@ from django.conf import settings
 
 class NoteGroup(models.Model):
     id = models.BigAutoField(primary_key=True)
-    group_id = models.BigIntegerField(null=True)
     group_name = models.CharField(max_length=25)
     password = models.CharField(max_length=25)
 

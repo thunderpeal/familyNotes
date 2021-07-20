@@ -130,10 +130,9 @@ def group_notes_view(request):
     if request.method == 'POST':
         form = GroupSignInForm(request.POST)
         if form.is_valid():
-            group = NoteGroup.objects.get(id=form.instance.group_id)
+            group = NoteGroup.objects.get(id=request.POST['group_id'])
             if group:
-                if group.password == form.instance.password:
-
+                if group.password == request.POST['password']:
                     user = request.user
                     user.note_group = group
                     user.save()

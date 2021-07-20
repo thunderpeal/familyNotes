@@ -36,12 +36,9 @@ class GroupCreationForm(ModelForm):
         return group
 
 
-class GroupSignInForm(ModelForm):
+class GroupSignInForm(forms.Form):
+    group_id = forms.CharField(label=_("Group id"))
     password = forms.CharField(label=_("Password"), widget=forms.PasswordInput())
-
-    class Meta:
-        model = NoteGroup
-        fields = ['group_id', 'password']
 
 
 class MembersNoteForm(ModelForm):
