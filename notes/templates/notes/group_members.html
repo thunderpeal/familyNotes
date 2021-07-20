@@ -8,9 +8,14 @@
     <br>
     {% endif %}
     {% if request.user.note_group %}
+    <p>Your group id is {{ group_id }}</p>
+    {% endif %}
+    {% if request.user.note_group %}
+        <a href="{% url 'group-member-delete' request.user.id %}">Leave group</a>
+        <hr>
         {% for member in group_members %}
             {{ member.username }}
-            {% if request.user.group_admin %}
+            {% if request.user.group_admin and request.user.id != member.id %}
                 <a href="{% url 'group-member-delete' member.id %}">Delete</a>
             {% endif %}
             <br>

@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'notes.apps.NotesConfig'
+    'notes.apps.NotesConfig',
+    'basic.apps.BasicConfig'
 ]
 
 MIDDLEWARE = [
@@ -91,7 +92,7 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
-AUTH_USER_MODEL = 'notes.CustomUser'
+AUTH_USER_MODEL = 'basic.CustomUser'
 
 AUTH_PASSWORD_VALIDATORS = [
     {

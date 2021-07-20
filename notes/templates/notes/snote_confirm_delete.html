@@ -1,7 +1,7 @@
 {% extends 'notes/basic.html' %}
 
 {% block content %}
-    <a href="{% url 'notes' %}">&#8592;Back</a>
+    <a href="{% url 'my-notes' %}">&#8592;Back</a>
     <form method="post">
         {% csrf_token %}
         <p>Are you sure you want to delete "{{ note }}"?</p>

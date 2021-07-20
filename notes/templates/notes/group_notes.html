@@ -19,7 +19,7 @@
         <p>Seems like you are not in group yet. Wanna enter one? </p>
         <form method="POST" action="">
             {% csrf_token %}
-            {{ form.as_p}}
+            {{ form }}
             <input type="submit" value="Login">
         </form>
         <br>

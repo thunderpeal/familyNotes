@@ -5,17 +5,12 @@ from django.conf import settings
 
 class NoteGroup(models.Model):
     id = models.BigAutoField(primary_key=True)
+    group_id = models.BigIntegerField(null=True)
     group_name = models.CharField(max_length=25)
     password = models.CharField(max_length=25)
 
     def __str__(self):
         return self.group_name
-
-
-class CustomUser(AbstractUser):
-    phone_number = models.CharField(unique=True, max_length=10, null=True, blank=True)
-    note_group = models.ForeignKey(NoteGroup, on_delete=models.DO_NOTHING, null=True, blank=True)
-    group_admin = models.BooleanField(default=False)
 
 
 class SNote(models.Model):

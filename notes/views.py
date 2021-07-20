@@ -1,46 +1,15 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from .models import SNote, SComment, CustomUser, NoteGroup
+from .models import SNote, NoteGroup
+from basic.models import CustomUser
 from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, DeleteView, UpdateView, FormView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.db.models import Q
 
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LogoutView
-from django.contrib.auth import login
-from .forms import SignUpForm, GroupSignInForm
-from django.http import HttpResponse
 
-
-class CustomLoginView(LoginView):
-    template_name = 'notes/user_login.html'
-    fields = '__all__'
-    redirect_authenticated_user = True
-    success_url = reverse_lazy('notes')
-
-
-class CustomLogoutView(LogoutView):
-    next_page = reverse_lazy('notes')
-
-
-class UserRegistration(FormView):
-    template_name = 'notes/user_registration.html'
-    form_class = SignUpForm
-    success_url = reverse_lazy('notes')
-
-    def form_valid(self, form):
-        user = form.save()
-        # if user is not None:
-        #    login(self, user)
-        return super(UserRegistration, self).form_valid(form)
-
-    def get(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return redirect('notes')
-        return super(UserRegistration, self).get(*args, **kwargs)
+from .forms import GroupSignInForm, MembersNoteForm, GroupCreationForm
 
 
 class MyNotesList(LoginRequiredMixin, ListView):
@@ -57,28 +26,24 @@ class MyNotesList(LoginRequiredMixin, ListView):
 
 
 class NoteAdd(LoginRequiredMixin, CreateView):
-    model = SNote
     template_name = 'notes/note_add.html'
-    fields = ['heading', 'message', 'to_whom', 'is_for_group']
-    success_url = reverse_lazy('notes')
+    success_url = reverse_lazy('my-notes')
+    form_class = MembersNoteForm
 
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super(NoteAdd, self).form_valid(form)
 
-    def get_form_class(self):
-        print(self.request.user.note_group)
-        if self.request.user.note_group is None:
-            self.fields = ['heading', 'message']
-        else:
-            self.fields = self.fields
-        return super(NoteAdd, self).get_form_class()
+    def get_form_kwargs(self):
+        kwargs = super(NoteAdd, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
 
 class NoteUpdate(LoginRequiredMixin, UpdateView):
     model = SNote
     fields = ['heading', 'message', 'to_whom', 'is_for_group']
-    success_url = reverse_lazy('notes')
+    success_url = reverse_lazy('my-notes')
 
     def get_form_class(self):
         print(self.request.user.note_group)
@@ -92,7 +57,7 @@ class NoteUpdate(LoginRequiredMixin, UpdateView):
 class NoteDelete(LoginRequiredMixin, DeleteView):
     model = SNote
     context_object_name = 'note'
-    success_url = reverse_lazy('notes')
+    success_url = reverse_lazy('my-notes')
 
 
 class NoteGroupMembersList(LoginRequiredMixin, ListView):
@@ -104,8 +69,16 @@ class NoteGroupMembersList(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         group_members = CustomUser.objects.filter(Q(note_group=self.request.user.note_group))
         context['group_members'] = group_members
-        context['group'] = self.request.user.note_group
+        if self.request.user.note_group:
+            context['group'] = self.request.user.note_group
+            group = self.request.user.note_group
+            context['group_id'] = group.id
         return context
+
+    def get(self, request, *args, **kwargs):
+        if self.request.user.note_group is None:
+            return redirect('home')
+        return super(NoteGroupMembersList, self).get(request, *args, **kwargs)
 
 
 @login_required
@@ -126,8 +99,12 @@ def group_member_delete(request, user_id):
             user.save()
             group.delete()
         user.group_admin = False
-
-    return redirect('home')
+        user.save()
+        return redirect('home')
+    else:
+        user.note_group = None
+        user.save()
+    return redirect('group-members')
 
 
 class NoteGroupDelete(LoginRequiredMixin, DeleteView):
@@ -148,15 +125,19 @@ class NoteGroupDelete(LoginRequiredMixin, DeleteView):
         return super(NoteGroupDelete, self).delete(request, *args, **kwargs)
 
 
+@login_required
 def group_notes_view(request):
     if request.method == 'POST':
         form = GroupSignInForm(request.POST)
         if form.is_valid():
-            group = form.save(commit=False)
-            group.save()
-            user = request.user
-            user.note_group = group
-            user.save()
+            group = NoteGroup.objects.get(id=form.instance.group_id)
+            if group:
+                if group.password == form.instance.password:
+
+                    user = request.user
+                    user.note_group = group
+                    user.save()
+                    redirect('group-members')
     else:
         form = GroupSignInForm()
 
@@ -168,9 +149,8 @@ def group_notes_view(request):
 
 
 class NoteGroupCreate(LoginRequiredMixin, CreateView):
-    model = NoteGroup
+    form_class = GroupCreationForm
     template_name = 'notes/group_add.html'
-    fields = '__all__'
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
@@ -180,3 +160,7 @@ class NoteGroupCreate(LoginRequiredMixin, CreateView):
         user.group_admin = True
         user.save()
         return super(NoteGroupCreate, self).form_valid(form)
+
+
+def about(request):
+    return render(request, 'notes/settings.html')
