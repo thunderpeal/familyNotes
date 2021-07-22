@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from .models import SNote, NoteGroup
 from basic.models import CustomUser
+from django.views import View
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.db.models import Q
@@ -125,9 +126,17 @@ class NoteGroupDelete(LoginRequiredMixin, DeleteView):
         return super(NoteGroupDelete, self).delete(request, *args, **kwargs)
 
 
-@login_required
-def group_notes_view(request):
-    if request.method == 'POST':
+class GroupNotesView(LoginRequiredMixin, View):
+    form_class = GroupSignInForm
+
+    def get(self, request, *args, **kwargs):
+        authors = CustomUser.objects.filter(Q(note_group=request.user.note_group)
+                                           & ~Q(note_group=None))
+        group_notes = SNote.objects.filter(Q(is_for_group=True) & Q(author__in=authors))
+        context = {'form': self.form_class, 'notes_list': group_notes}
+        return render(request, 'notes/group_notes.html', context)
+
+    def post(self, request, *args, **kwargs):
         form = GroupSignInForm(request.POST)
         if form.is_valid():
             group = NoteGroup.objects.get(id=request.POST['group_id'])
@@ -137,14 +146,9 @@ def group_notes_view(request):
                     user.note_group = group
                     user.save()
                     redirect('group-members')
-    else:
-        form = GroupSignInForm()
-
-    authors = CustomUser.objects.filter(Q(note_group=request.user.note_group)
-                                        & ~Q(note_group=None))
-    group_notes = SNote.objects.filter(Q(is_for_group=True) & Q(author__in=authors))
-    context = {'form': form, 'notes_list': group_notes}
-    return render(request, 'notes/group_notes.html', context)
+            return redirect('home')
+        else:
+            return render(request, 'notes/group_notes.html')
 
 
 class NoteGroupCreate(LoginRequiredMixin, CreateView):
@@ -160,6 +164,3 @@ class NoteGroupCreate(LoginRequiredMixin, CreateView):
         user.save()
         return super(NoteGroupCreate, self).form_valid(form)
 
-
-def about(request):
-    return render(request, 'notes/settings.html')
