@@ -5,5 +5,5 @@ urlpatterns = [
     path('register/', UserRegistration.as_view(), name='register'),
     path('logout/', CustomLogoutView.as_view(), name='logout'),
     path('login/', CustomLoginView.as_view(), name='login'),
-    path('', main, name='start-page')
+    path('welcome-page/', main, name='welcome-page')
 ]

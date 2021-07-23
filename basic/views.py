@@ -9,7 +9,7 @@ from django.contrib.auth import login
 def main(request):
     if request.user.is_authenticated:
         return redirect('my-notes')
-    return render(request, 'basic/main.html')
+    return render(request, 'basic/welcome_page.html')
 
 
 class UserRegistration(FormView):
@@ -40,4 +40,4 @@ class CustomLoginView(LoginView):
 
 
 class CustomLogoutView(LogoutView):
-    next_page = reverse_lazy('start-page')
+    next_page = reverse_lazy('welcome-page')

@@ -1,7 +1,7 @@
 from django.urls import path
 from django.views.generic import TemplateView
 from .views import NoteCreate, NoteUpdate, MyNotesList, NoteDelete, NoteGroupMembersList, group_member_delete, \
-    NoteGroupDelete, NoteGroupCreate, GroupNotesView
+    NoteGroupDelete, NoteGroupCreate, GroupNotesView, kostyl
 
 urlpatterns = [
     path('settings/', TemplateView.as_view(template_name='notes/settings.html'), name='settings'),
@@ -11,7 +11,8 @@ urlpatterns = [
     path('group-members/', NoteGroupMembersList.as_view(), name='group-members'),
     path('group-notes/', GroupNotesView.as_view(), name='home'),
     path('note-delete/<int:pk>/', NoteDelete.as_view(), name='note-delete'),
-    path('add/', NoteCreate.as_view(), name='add'),
-    path('edit/<int:pk>/', NoteUpdate.as_view(), name='edit'),
+    path('note-create/', NoteCreate.as_view(), name='add'),
+    path('note-edit/<int:pk>/', NoteUpdate.as_view(), name='edit'),
     path('my-notes/', MyNotesList.as_view(), name='my-notes'),
+    path('', kostyl),
 ]

@@ -138,7 +138,7 @@ class GroupNotesView(LoginRequiredMixin, View):
 
 class NoteGroupCreate(LoginRequiredMixin, CreateView):
     form_class = GroupCreationForm
-    template_name = 'notes/group_add.html'
+    template_name = 'notes/group_create.html'
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
@@ -147,3 +147,7 @@ class NoteGroupCreate(LoginRequiredMixin, CreateView):
         user.group_admin = True
         user.save()
         return super(NoteGroupCreate, self).form_valid(form)
+
+
+def kostyl(request):
+    return redirect('welcome-page')
