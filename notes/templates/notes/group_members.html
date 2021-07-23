@@ -2,27 +2,25 @@
 {% load static %}
 
 {% block content %}
-    {% if request.user.group_admin %}
-    <a href="{% url 'group-delete' group.id %}">DELETE GROUP</a>
-    <br>
-    <br>
-    {% endif %}
-    {% if request.user.note_group %}
-    <p>Your group id is {{ group_id }}</p>
-    {% endif %}
-    {% if request.user.note_group %}
-        <a href="{% url 'group-member-delete' request.user.id %}">Leave group</a>
-        <hr>
+
+    <p>
+        Your group name is {{ group.group_name }} <br>
+        Your group id is {{ group.id }}    <br>
+        {% if request.user.group_admin %}
+            <a href="{% url 'group-delete' group.id %}">DELETE GROUP</a>
+        {% endif %}
+
+
+    </p> <hr>
         {% for member in group_members %}
             {{ member.username }}
             {% if request.user.group_admin and request.user.id != member.id %}
-                <a href="{% url 'group-member-delete' member.id %}">Delete</a>
+                <a href="{% url 'group-member-delete' member.id %}">Exclude</a>
+            {% else %}
+                <a href="{% url 'group-member-delete' request.user.id %}">Leave</a>
             {% endif %}
             <br>
         {% endfor %}
-    {% else %}
-        <p>You are not in group yet. Follow <a href="{% url 'home' %}">HERE</a> if you want to join or create one</p>
-    {% endif %}
 {% endblock %}
 
 {% block footer %}
