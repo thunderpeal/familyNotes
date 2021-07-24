@@ -3,11 +3,12 @@
 Create Note
 {% endblock %}
 {% block content %}
-
-<h1>Добавление записки</h1><a href="{% url 'my-notes' %}">&#8592;Back</a>
+<div style="text-align: center">
+<h2>Добавление записки</h2><a href="{% url 'notes' %}">&#8592;Back</a>
 <form method="post">
 {% csrf_token %}
 {{ form.as_p }}
 <input class="button" type="submit" value="submit">
 </form>
+</div>
 {% endblock %}

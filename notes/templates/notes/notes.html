@@ -1,0 +1,75 @@
+{% extends 'notes/basic.html'%}
+{% load static %}
+{% block title %}
+Notes
+{% endblock %}
+
+
+{% block content %}
+    {% if request.user.note_group %}
+    <div class="tab">
+        <div class="notes-menu">
+            <button style="border-right: none;" class="tablinks" onclick="openCity(event, 'Home')">
+                <i class="fa fa-home"></i>Home
+            </button>
+        </div><!--
+     --><div class="notes-menu">
+            <button class="tablinks" onclick="openCity(event, 'Notes')" id="defaultOpen">
+                <i class="fa fa-sticky-note-o"></i>Notes
+            </button>
+        </div>
+    </div>
+
+
+
+<div id="Home" class="tabcontent">
+  {% if group_notes_list %}
+        {% for note in group_notes_list %}
+            {{ note.message }}
+            <a href="{% url 'edit' note.id %}">Edit</a>
+            <a href="{% url 'note-delete' note.id %}">&#215;</a>
+            <script src={% static 'notes/script.js' %}></script>
+            <br>
+        {% endfor %}
+    {% else %}
+        <p style="text-align: center">No notes are available.</p>
+    {% endif %}
+<div style="text-align: center">
+ <a href="{% url 'add' %}"><div class="foot fas fa-plus"></div>Add</a>
+</div>
+</div>
+
+<div id="Notes" class="tabcontent">
+  {% if my_notes_list %}
+        {% for note in my_notes_list %}
+            {{ note.message }}
+            <a href="{% url 'edit' note.id %}">Edit</a>
+            <a href="{% url 'note-delete' note.id %}">&#215;</a>
+            <script src={% static 'notes/script.js' %}></script>
+            <br>
+        {% endfor %}
+    {% else %}
+        <p style="text-align: center">No notes are available.</p>
+    {% endif %}
+<div style="text-align: center">
+ <a href="{% url 'add' %}"><div class="foot fas fa-plus"></div>Add</a>
+</div>
+</div>
+    {% else %}
+        {% if my_notes_list %}
+        {% for note in my_notes_list %}
+            {{ note.message }}
+            <a href="{% url 'edit' note.id %}">Edit</a>
+            <a href="{% url 'note-delete' note.id %}">&#215;</a>
+            <script src={% static 'notes/script.js' %}></script>
+            <br>
+        {% endfor %}
+    {% else %}
+        <p>No notes are available.</p>
+    {% endif %}
+        <div style="text-align: center">
+ <a href="{% url 'add' %}"><div class="foot fas fa-plus"></div>Add</a>
+</div>
+{% endif %}
+{% endblock content %}
+

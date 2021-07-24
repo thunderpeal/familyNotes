@@ -8,14 +8,14 @@ from django.contrib.auth import login
 
 def main(request):
     if request.user.is_authenticated:
-        return redirect('my-notes')
+        return redirect('notes')
     return render(request, 'basic/welcome_page.html')
 
 
 class UserRegistration(FormView):
     template_name = 'basic/user_registration.html'
     form_class = SignUpForm
-    success_url = reverse_lazy('my-notes')
+    success_url = reverse_lazy('notes')
 
     def form_valid(self, form):
         user = form.save()
@@ -25,7 +25,7 @@ class UserRegistration(FormView):
 
     def get(self, *args, **kwargs):
         if self.request.user.is_authenticated:
-            return redirect('my-notes')
+            return redirect('notes')
         return super(UserRegistration, self).get(*args, **kwargs)
 
 
@@ -33,10 +33,10 @@ class CustomLoginView(LoginView):
     template_name = 'basic/user_login.html'
     fields = '__all__'
     redirect_authenticated_user = True
-    success_url = reverse_lazy('my-notes')
+    success_url = reverse_lazy('notes')
 
     def get_success_url(self):
-        return reverse_lazy('my-notes')
+        return reverse_lazy('notes')
 
 
 class CustomLogoutView(LogoutView):

@@ -7,25 +7,36 @@
     <title>{% block title %}{% endblock %} — Family Notes</title>
 
     <link rel="stylesheet" type="text/css" href="{% static 'notes/style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/2b21943bd9.js" crossorigin="anonymous"></script>
+    <script src="{% static 'notes/script.js' %}"></script>
+<style>
+
+</style>
 </head>
 <body>
-<h1>
-    {{ request.user }}
-</h1>
+<div class="container-topnav">
+<div class="topnav">
+    <a>Welcome, {{ request.user }}!</a>
 
-<header>
-    <div class="icon-bar">
-        <a href="{% url 'home' %}"><i class="fa fa-home"></i>Home</a>
-        <a href="{% url 'my-notes' %}"><i class="fa fa-sticky-note-o">Notes</i></a>
+
+    <div class="topnav-centered">
+        <a href="{% url 'notes' %}" class="active">Family Notes</a>
+    </div>
+    <div class="topnav-right">
         {% if request.user.note_group %}
-        <a href="{% url 'group-members' %}"><i class="fa fa-users"></i>Members</a>
+            <a href="{% url 'group-members' %}"><i class="fa fa-users"></i>Members</a>
+        {% else %}
+            <a href="{% url 'group-login' %}"><i class="fa fa-users"></i>Group</a>
         {% endif %}
         <a href="{% url 'settings' %}"><i class="fa fa-cog"></i>Settings</a>
-        <a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Exit</a>
+        <a  href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Exit</a>
     </div>
-</header>
-<hr>
+</div>
+
+</div>
 {% block content %}
 {% endblock %}
 

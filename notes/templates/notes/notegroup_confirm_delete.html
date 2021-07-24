@@ -3,7 +3,7 @@
 Group Deletion Confirmation
 {% endblock %}
 {% block content %}
-    <a href="{% url 'home' %}">&#8592;Back</a>
+    <a href="{% url 'group-login' %}">&#8592;Back</a>
     <form method="post">
         {% csrf_token %}
         <p>Are you sure you want to delete "{{ group }}"?</p>

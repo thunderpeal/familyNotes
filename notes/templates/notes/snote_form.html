@@ -3,11 +3,12 @@
 Edit Note
 {% endblock %}
 {% block content %}
-
-<h1>Изменение записки</h1> <a href="{% url 'my-notes' %}">&#8592;Back</a>
+<div style="text-align: center">
+    <h2>Изменение записки</h2> <a href="{% url 'notes' %}">&#8592;Back</a>
 <form method="post" action="">
 {% csrf_token %}
 {{ form.as_p }}
 <input type="submit" value="Save changes">
 </form>
+    </div>
 {% endblock %}

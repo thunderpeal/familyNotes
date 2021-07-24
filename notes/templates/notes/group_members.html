@@ -4,12 +4,12 @@
 Group Members
 {% endblock %}
 {% block content %}
-
+ <div style="text-align: center;" >
     <p>
-        Your group name is {{ group.group_name }} <br>
-        Your group id is {{ group.id }}    <br>
+        Your group name is <i><b>{{ group.group_name }}</b></i> <br>
+        Your group id is  <i><b>{{ group.id }}</b></i>    <br>
         {% if request.user.group_admin %}
-            <a href="{% url 'group-delete' group.id %}">DELETE GROUP</a>
+             <i><b><a href="{% url 'group-delete' group.id %}">DELETE GROUP</a></b></i>
         {% endif %}
 
 
@@ -23,8 +23,6 @@ Group Members
             {% endif %}
             <br>
         {% endfor %}
+ </div>
 {% endblock %}
 
-{% block footer %}
-    <a href="{% url 'add' %}"><div class="foot fas fa-plus"></div></a>
-{% endblock %}
