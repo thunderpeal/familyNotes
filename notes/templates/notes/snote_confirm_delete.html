@@ -1,12 +1,16 @@
 {% extends 'notes/basic.html' %}
+{% load static %}
 {% block title %}
     Deletion Confirmation
 {% endblock %}
 {% block content %}
-    <a href="{% url 'notes' %}">&#8592;Back</a>
+    <div class="delete">
+
     <form method="post">
         {% csrf_token %}
         <p>Are you sure you want to delete "{{ note }}"?</p>
-    <input type="submit" value="Confirm">
-</form>
+        <input style="float: left" type="submit" value="Confirm">
+        <button style="float: right"><a href="{% url 'notes' %}">&#8592;Back</a></button>
+    </form>
+    </div>
 {% endblock %}

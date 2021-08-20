@@ -8,7 +8,7 @@ from django.db.models import Q
 from django.views import View
 from django.views.generic import TemplateView
 from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView, DeleteView, UpdateView, FormView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -35,7 +35,7 @@ class MyNotesList(LoginRequiredMixin, ListView):
 
 class NoteCreate(LoginRequiredMixin, CreateView):
     template_name = 'notes/note_create.html'
-    success_url = reverse_lazy('my-notes')
+    success_url = reverse_lazy('notes')
     form_class = MembersNoteForm
 
     def form_valid(self, form):
@@ -51,7 +51,7 @@ class NoteCreate(LoginRequiredMixin, CreateView):
 class NoteUpdate(LoginRequiredMixin, UpdateView):
     model = SNote
     fields = ['heading', 'message', 'to_whom', 'is_for_group']
-    success_url = reverse_lazy('my-notes')
+    success_url = reverse_lazy('notes')
 
     def get_form_class(self):
         if self.request.user.note_group is None:
@@ -62,7 +62,7 @@ class NoteUpdate(LoginRequiredMixin, UpdateView):
 class NoteDelete(LoginRequiredMixin, DeleteView):
     model = SNote
     context_object_name = 'note'
-    success_url = reverse_lazy('my-notes')
+    success_url = reverse_lazy('notes')
 
 
 class NoteGroupMembersList(LoginRequiredMixin, View):

@@ -7,35 +7,35 @@ Notes
 
 {% block content %}
     {% if request.user.note_group %}
-    <div class="tab">
-        <div class="notes-menu">
-            <button style="border-right: none;" class="tablinks" onclick="openCity(event, 'Home')">
-                <i class="fa fa-home"></i>Home
-            </button>
-        </div><!--
-     --><div class="notes-menu">
-            <button class="tablinks" onclick="openCity(event, 'Notes')" id="defaultOpen">
-                <i class="fa fa-sticky-note-o"></i>Notes
-            </button>
-        </div>
-    </div>
-
 
 
 <div id="Home" class="tabcontent">
   {% if group_notes_list %}
         {% for note in group_notes_list %}
-            {{ note.message }}
-            <a href="{% url 'edit' note.id %}">Edit</a>
-            <a href="{% url 'note-delete' note.id %}">&#215;</a>
-            <script src={% static 'notes/script.js' %}></script>
-            <br>
-        {% endfor %}
+            <div id="item" class="note">
+                <div class="header-bar">
+                    <div class="header-links">
+                        <a href="{% url 'add' %}">&#8853;</a>
+                        <a href="{% url 'edit' note.id %}">&#9998;</a>
+                        <a href="{% url 'note-delete' note.id %}">&#215;</a>
+                    </div>
+
+                </div>
+                <div style="padding: 5px 10px">
+                    {{ note.message }}
+                </div>
+            </div><script>
+                var dragItem = document.querySelectorAll(".note")[-1];
+                dragItem.addEventListener("dblclick", function(e){
+                    e.preventDefault();
+                    location.href = "{% url 'edit' note.id %}";
+                });
+            </script><!--
+       -->{% endfor %}
     {% else %}
         <p style="text-align: center">No notes are available.</p>
     {% endif %}
 <div style="text-align: center">
- <a href="{% url 'add' %}"><div class="foot fas fa-plus"></div>Add</a>
 </div>
 </div>
 
@@ -68,8 +68,8 @@ Notes
         <p>No notes are available.</p>
     {% endif %}
         <div style="text-align: center">
- <a href="{% url 'add' %}"><div class="foot fas fa-plus"></div>Add</a>
-</div>
+
+</div><script src={% static 'notes/script.js' %}></script>
 {% endif %}
 {% endblock content %}
 

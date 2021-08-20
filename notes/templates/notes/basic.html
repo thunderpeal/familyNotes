@@ -7,6 +7,7 @@
     <title>{% block title %}{% endblock %} — Family Notes</title>
 
     <link rel="stylesheet" type="text/css" href="{% static 'notes/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'notes/dropMenu.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
@@ -17,36 +18,53 @@
 </style>
 </head>
 <body>
-<div class="container-topnav">
+<div class="con">
+
 <div class="topnav">
-    <a>Welcome, {{ request.user }}!</a>
+    <div class="welcome">
+        <a>Welcome, {{ request.user }}!</a>
+    </div>
 
-
-    <div class="topnav-centered">
+    <div class="project-name">
         <a href="{% url 'notes' %}" class="active">Family Notes</a>
+
     </div>
-    <div class="topnav-right">
+
+    <div class="right-nav">
         {% if request.user.note_group %}
-            <a href="{% url 'group-members' %}"><i class="fa fa-users"></i>Members</a>
+              <div class="dropdown">
+                <button class="dropbtn">Group
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a class="tablinks" onclick="openCity(event, 'Home')" id="defaultOpen" href="#">Home</a>
+                    <a class="tablinks" onclick="openCity(event, 'Notes')" href="#">Notes</a>
+                    <a href="#">group 3</a>
+
+                </div>
+              </div>
+            <a href="{% url 'group-members' %}">Members <i class="fa fa-users"></i></a>
         {% else %}
-            <a href="{% url 'group-login' %}"><i class="fa fa-users"></i>Group</a>
+            <a href="{% url 'group-login' %}">Group <i class="fa fa-users"></i></a>
         {% endif %}
-        <a href="{% url 'settings' %}"><i class="fa fa-cog"></i>Settings</a>
-        <a  href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Exit</a>
+
+        <a href="{% url 'settings' %}">Settings <i class="fa fa-cog"></i></a>
+        <a  href="{% url 'logout' %}">Exit <i class="fa fa-sign-out"></i></a>
     </div>
-</div>
 
 </div>
+
+<div class="main-container">
 {% block content %}
 {% endblock %}
+</div>
 
-
-    {% block footer %}
-
-    {% endblock %}
-
+<div class="footer">
+   &#169; СЛАВА ЧТО-ТО СДЕЛАЛ 2021
+</div>
+</div>
 <script>
-    //alert('So... hello?')
+    document.getElementById("defaultOpen").click();
 </script>
 </body>
 </html>

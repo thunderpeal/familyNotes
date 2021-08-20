@@ -1,12 +1,14 @@
+'use strict'
+
 var dragItems = document.querySelectorAll("#item");
 console.log(dragItems)
-for (dragItem of dragItems){
+for (let dragItem of dragItems){
     Drag(dragItem);
 }
 
 function Drag(dragItem){
 
-    var container = document.querySelector("#container");
+    var container = dragItem;
 
     var active = false;
     var currentX;
@@ -23,6 +25,7 @@ function Drag(dragItem){
     container.addEventListener("mousedown", dragStart, false);
     container.addEventListener("mouseup", dragEnd, false);
     container.addEventListener("mousemove", drag, false);
+
 
     function dragStart(e) {
       if (e.type === "touchstart") {
@@ -72,17 +75,17 @@ function Drag(dragItem){
 
 function openCity(evt, cityName) {
   // Declare all variables
-  var i, tabcontent, tablinks;
+  let i, tabcontent, tablinks;
 
   // Get all elements with class="tabcontent" and hide them
   tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
+  for (let i = 0; i < tabcontent.length; i++) {
     tabcontent[i].style.display = "none";
   }
 
   // Get all elements with class="tablinks" and remove the class "active"
   tablinks = document.getElementsByClassName("tablinks");
-  for (i = 0; i < tablinks.length; i++) {
+  for (let i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" active", "");
   }
 
@@ -91,6 +94,3 @@ function openCity(evt, cityName) {
   evt.currentTarget.className += " active";
 }
 
-
-
-document.getElementById("defaultOpen").click();
