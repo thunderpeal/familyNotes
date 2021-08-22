@@ -3,12 +3,25 @@
 Create Note
 {% endblock %}
 {% block content %}
-<div style="text-align: center">
-<h2>Добавление записки</h2><a href="{% url 'notes' %}">&#8592;Back</a>
-<form method="post">
-{% csrf_token %}
-{{ form.as_p }}
-<input class="button" type="submit" value="submit">
+    <h4>Добавление записки     <a href="{% url 'notes' %}">&#8592;Back</a></h4>
+
+
+    <form method="post">
+    {% csrf_token %}
+
+<div class="note-form">
+    <div class="header-bar">
+        {{ form.heading}}
+    </div>
+    <div>
+        {{ form.message}}
+    </div>
+</div><br>
+    <label>{{ form.to_whom.label }}</label>
+        {{ form.to_whom }}<br>
+    <label>{{ form.is_for_group.label }}</label>
+        {{ form.is_for_group }}<br>
+    <input class="button" type="submit" value="submit">
 </form>
-</div>
+
 {% endblock %}
