@@ -9,10 +9,10 @@ Notes
     {% if request.user.note_group %}
 
 
-<div id="Home" class="tabcontent">
+<div id="home" class="tabcontent">
   {% if group_notes_list %}
         {% for note in group_notes_list %}
-            <div id="item" class="note">
+            <div id="draggable" class="ui-widget-content draggable note">
                 <div class="header-bar">
                     <div class="header-links">
                         <a href="{% url 'add' %}">&#8853;</a>
@@ -25,7 +25,8 @@ Notes
                     {{ note.message }}
                 </div>
             </div><script>
-                var dragItem = document.querySelectorAll(".note")[-1];
+                'use strict'
+                let dragItem = document.querySelectorAll(".ui-widget-content .draggable .note")[-1];
                 dragItem.addEventListener("dblclick", function(e){
                     e.preventDefault();
                     location.href = "{% url 'edit' note.id %}";
@@ -69,7 +70,7 @@ Notes
     {% endif %}
         <div style="text-align: center">
 
-</div><script src={% static 'notes/script.js' %}></script>
+</div>
 {% endif %}
 {% endblock content %}
 

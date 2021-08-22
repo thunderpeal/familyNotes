@@ -1,0 +1,14 @@
+.draggable {
+      cursor:move;
+  }
+
+#draggable, #draggable2 {
+      margin-bottom:20px;
+      cursor:move;
+}
+#draggable {
+      cursor: move;
+}
+#draggable2 {
+    cursor: e-resize;
+}

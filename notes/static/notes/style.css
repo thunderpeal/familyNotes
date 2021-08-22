@@ -1,16 +1,15 @@
-html{
-  height: 100%;
-}
-body{
+
+html, body{
   height: 100%;
   margin: 0;
   font-family: 'Fira Sans', sans-serif;
   font-size: 20px;
-
   background-color: #b9deed;
+
 }
 
 .topnav{
+  flex: 0 1 auto;
   -webkit-box-shadow: 0 2px 13px -4px rgba(0,0,0,0.9);
   box-shadow: 0 2px 13px -4px rgba(0,0,0, 0.9);
   padding-top: 15px;
@@ -51,7 +50,9 @@ body{
 
 
 .main-container{
+  flex: 1 1 auto;
   margin: 0 10px;
+
 }
 
 .tab {
@@ -69,6 +70,7 @@ body{
 }
 
 .footer {
+  flex: 0 1 40px;
   padding-top: 15px;
   color: white;
   text-align: right;
@@ -83,17 +85,19 @@ body{
   background: linear-gradient(to right, #4871b5, #1F4788, #4871b5);
 }
 
-#con {
-  min-height:100%;
+.con {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
   position:relative;
 }
-
-
 
 .tabcontent {
   animation: fadeEffect 1s; /* Fading effect takes 1 second */
 }
+
 .note{
+  cursor: n-resize;
   overflow: hidden;
   text-align: left;
   position: relative;

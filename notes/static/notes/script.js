@@ -1,7 +1,6 @@
 'use strict'
 
 var dragItems = document.querySelectorAll("#item");
-console.log(dragItems)
 for (let dragItem of dragItems){
     Drag(dragItem);
 }

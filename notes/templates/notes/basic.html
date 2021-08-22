@@ -8,11 +8,17 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'notes/style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'notes/dropMenu.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'notes/drag.css' %}">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/2b21943bd9.js" crossorigin="anonymous"></script>
     <script src="{% static 'notes/script.js' %}"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="{% static 'notes/drag.js' %}"></script>
 <style>
 
 </style>
@@ -37,7 +43,7 @@
                     <i class="fa fa-caret-down"></i>
                 </button>
                 <div class="dropdown-content">
-                    <a class="tablinks" onclick="openCity(event, 'Home')" id="defaultOpen" href="#">Home</a>
+                    <a class="tablinks" onclick="openCity(event, 'home')" id="defaultOpen" href="#">Home</a>
                     <a class="tablinks" onclick="openCity(event, 'Notes')" href="#">Notes</a>
                     <a href="#">group 3</a>
 
