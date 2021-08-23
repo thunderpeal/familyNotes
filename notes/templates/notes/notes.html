@@ -48,7 +48,7 @@ Notes
                 {% endfor %}
 
             </script>
-      <script src="{% static 'notes/zIndexSetter.js' %}"></script>
+      <script src="{% static 'notes/js/zIndexSetter.js' %}"></script>
     {% else %}
       <div style="text-align: center">
         <p >No notes are available</p>
@@ -65,7 +65,7 @@ Notes
             {{ note.message }}
             <a href="{% url 'edit' note.id %}">Edit</a>
             <a href="{% url 'note-delete' note.id %}">&#215;</a>
-            <script src={% static 'notes/tabActivity.js' %}></script>
+            <script src={% static 'notes/js/tabActivity.js' %}></script>
             <br>
         {% endfor %}
     {% else %}
@@ -81,7 +81,7 @@ Notes
             {{ note.message }}
             <a href="{% url 'edit' note.id %}">Edit</a>
             <a href="{% url 'note-delete' note.id %}">&#215;</a>
-            <script src={% static 'notes/tabActivity.js' %}></script>
+            <script src={% static 'notes/js/tabActivity.js' %}></script>
             <br>
         {% endfor %}
     {% else %}
