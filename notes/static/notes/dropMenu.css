@@ -3,9 +3,6 @@
   overflow: hidden;
 }
 
-
-
-/* Dropdown button */
 .dropdown .dropbtn {
   font-size: 20px;
   border: none;
@@ -19,8 +16,6 @@
 
 .dropbtn:hover{
   color: #FF4136;
-
-
 }
 
 

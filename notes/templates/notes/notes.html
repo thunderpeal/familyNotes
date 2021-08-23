@@ -12,9 +12,12 @@ Notes
 <div id="home" class="tabcontent">
   {% if group_notes_list %}
         {% for note in group_notes_list %}
-            <div id="draggable" class="ui-widget-content draggable note">
+            <div id="draggable" class="ui-widget-content draggable note resizable">
                 <div class="header-bar">
                     <div class="header-links">
+                        <a class="zValue" href="#">0</a>
+                        <a id="zUp" class="zUp" href="#">&#8593;</a>
+                        <a id="zDown" class="zDown" href="#">&#8595;</a>
                         <a href="{% url 'add' %}">&#8853;</a>
                         <a href="{% url 'edit' note.id %}">&#9998;</a>
                         <a href="{% url 'note-delete' note.id %}">&#215;</a>
@@ -24,17 +27,33 @@ Notes
                 <div style="padding: 5px 10px">
                     {{ note.message }}
                 </div>
-            </div><script>
-                'use strict'
-                let dragItem = document.querySelectorAll(".ui-widget-content .draggable .note")[-1];
-                dragItem.addEventListener("dblclick", function(e){
-                    e.preventDefault();
-                    location.href = "{% url 'edit' note.id %}";
-                });
-            </script><!--
+            </div><!--
        -->{% endfor %}
+            <script>
+                'use strict'
+                let drags = document.querySelectorAll(".note");
+                let dragNum = 0;
+                let dragZ = 11;
+                {% for note in group_notes_list %}
+                    drags[dragNum].addEventListener("dblclick", function(e){
+                        e.preventDefault();
+                        location.href = "{% url 'edit' note.id %}";
+                    });
+                    drags[dragNum].addEventListener("contextmenu", function(e){
+                        e.preventDefault();
+                        e.target.style.zIndex = dragZ;
+                        dragZ += 1;
+                    });
+                    dragNum += 1;
+                {% endfor %}
+
+            </script>
+      <script src="{% static 'notes/zIndexSetter.js' %}"></script>
     {% else %}
-        <p style="text-align: center">No notes are available.</p>
+      <div style="text-align: center">
+        <p >No notes are available</p>
+        <a href="{% url 'add' %}">Add one</a>
+      </div>
     {% endif %}
 <div style="text-align: center">
 </div>
@@ -46,7 +65,7 @@ Notes
             {{ note.message }}
             <a href="{% url 'edit' note.id %}">Edit</a>
             <a href="{% url 'note-delete' note.id %}">&#215;</a>
-            <script src={% static 'notes/script.js' %}></script>
+            <script src={% static 'notes/tabActivity.js' %}></script>
             <br>
         {% endfor %}
     {% else %}
@@ -62,7 +81,7 @@ Notes
             {{ note.message }}
             <a href="{% url 'edit' note.id %}">Edit</a>
             <a href="{% url 'note-delete' note.id %}">&#215;</a>
-            <script src={% static 'notes/script.js' %}></script>
+            <script src={% static 'notes/tabActivity.js' %}></script>
             <br>
         {% endfor %}
     {% else %}

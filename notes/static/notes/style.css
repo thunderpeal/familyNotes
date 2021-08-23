@@ -36,10 +36,6 @@ html, body{
   color: white;
 }
 
-.welcome{
-  width: 510px;
-}
-
 .project-name{
   font-size: 26px;
 }
@@ -70,7 +66,7 @@ html, body{
 }
 
 .footer {
-  padding-top: 15px;
+  padding-top: 5px;
   color: white;
   text-align: right;
    width:100%;
@@ -80,7 +76,7 @@ html, body{
   background: -webkit-linear-gradient(to right, #4871b5, #1F4788, #4871b5);
   background: linear-gradient(to right, #4871b5, #1F4788, #4871b5);
 
-   flex: 0 1 40px;
+   flex: 0 1 20px;
 }
 
 .con {
@@ -109,10 +105,18 @@ html, body{
   box-shadow: 2px 2px 13px -4px rgba(0,0,0, 0.21);
 }
 
+.note:hover{
+  z-index: 99999999999999999999999999999999999999999999 !important;
+  border: 1px solid red;
+  border-radius: 5px;
+  -webkit-box-shadow: 2px 2px 13px -4px rgba(0,0,0,0.21);
+  box-shadow: 2px 2px 13px -4px rgba(0,0,0, 0.21);
+
+}
 .header-bar{
   color: white;
   padding: 10px;
-  padding-left: 130px;
+  padding-left: 110px;
   margin: 0;
   border-radius: 5px 5px 0 0;
   background-color: #fdd663;
