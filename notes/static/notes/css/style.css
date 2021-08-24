@@ -91,7 +91,7 @@ html, body{
 }
 
 .note{
-  cursor: n-resize;
+  resize: both;
   overflow-y: auto;
   word-break: break-word;
   font-size: 18px;
@@ -102,6 +102,7 @@ html, body{
   border-radius: 5px;
   margin: 10px;
   height: 270px;
+  
   width:  227px;
   background-color: #feefc3;
   -webkit-box-shadow: 2px 2px 13px -4px rgba(0,0,0,0.21);
@@ -118,6 +119,7 @@ html, body{
 
 }
 .header-bar{
+  cursor: move;
   color: white;
   padding: 10px;
   padding-left: 110px;
@@ -151,12 +153,11 @@ html, body{
 }
 
 .button{
-            border: 3px solid #fdd663;
-
-            font-size: 14px;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            padding: 10px;
-            background-color: #feefc3;
-        }
+  border: 3px solid #fdd663;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 10px;
+  background-color: #feefc3;
+}

@@ -10,6 +10,7 @@ $(function () {
     d.draggable({
         containment: ".main-container",
         scroll: false,
+        handle: 'div.header-bar',
         stop: function (event, ui) {
             positions[this.id] = ui.position
             localStorage.positions = JSON.stringify(positions)
