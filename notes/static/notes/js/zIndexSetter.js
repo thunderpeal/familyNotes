@@ -7,7 +7,7 @@ $(function () {
     $.each(zs_saved, function (id, zats) {
         $("#" + id).css(zats);
         let elem = document.getElementById(id)
-        elem.firstElementChild.firstElementChild.firstElementChild.innerText = zats['z-index'];
+        elem.firstElementChild.firstElementChild.children[1].innerText = zats['z-index'];
     })
 });
 
@@ -21,7 +21,7 @@ for (let z of zUps){
         if ((prevZ + Number(1)) < maxZ){
             z.parentElement.parentElement.parentElement.style.zIndex = prevZ + Number(1);
         }
-        z.previousElementSibling.innerText = z.parentElement.parentElement.parentElement.style.zIndex;
+        z.nextElementSibling.innerText = z.parentElement.parentElement.parentElement.style.zIndex;
 
         zs_saved[z.parentElement.parentElement.parentElement.id] = {'z-index':z.parentElement.parentElement.parentElement.style.zIndex};
         localStorage.zs = JSON.stringify(zs_saved)
@@ -37,7 +37,7 @@ for (let z of zDowns){
         }else{
             z.parentElement.parentElement.parentElement.style.zIndex = 0;
         }
-        z.previousElementSibling.previousElementSibling.innerText = z.parentElement.parentElement.parentElement.style.zIndex;
+        z.previousElementSibling.innerText = z.parentElement.parentElement.parentElement.style.zIndex;
     });
 }
 

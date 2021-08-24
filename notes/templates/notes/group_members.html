@@ -19,7 +19,9 @@ Group Members
             {% if request.user.group_admin and request.user.id != member.id %}
                 <a href="{% url 'group-member-delete' member.id %}">Exclude</a>
             {% else %}
-                <a href="{% url 'group-member-delete' request.user.id %}">Leave</a>
+                {% if member.id == request.user.id %}
+                    <a href="{% url 'group-member-delete' request.user.id %}">Leave</a>
+                    {% endif %}
             {% endif %}
             <br>
         {% endfor %}

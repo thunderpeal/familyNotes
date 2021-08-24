@@ -9,6 +9,7 @@ html, body{
 }
 
 .topnav{
+  font-size: 20px;
   flex: 0 1 auto;
   -webkit-box-shadow: 0 2px 13px -4px rgba(0,0,0,0.9);
   box-shadow: 0 2px 13px -4px rgba(0,0,0, 0.9);
@@ -91,18 +92,21 @@ html, body{
 
 .note{
   cursor: n-resize;
-  overflow: hidden;
+  overflow-y: auto;
+  word-break: break-word;
+  font-size: 18px;
   text-align: left;
   position: relative;
   display: inline-block;
   border: 1px solid #fdd663;
   border-radius: 5px;
   margin: 10px;
-  height: 200px;
-  width:  200px;
+  height: 270px;
+  width:  227px;
   background-color: #feefc3;
   -webkit-box-shadow: 2px 2px 13px -4px rgba(0,0,0,0.21);
   box-shadow: 2px 2px 13px -4px rgba(0,0,0, 0.21);
+
 }
 
 .note:hover{
@@ -129,7 +133,6 @@ html, body{
 }
 
 .header-bar a{
-  font-size: 20px;
   color: black;
   text-decoration: none;
 }
@@ -148,12 +151,12 @@ html, body{
 }
 
 .button{
-            border: 3px solid #1E90FF;
+            border: 3px solid #fdd663;
 
             font-size: 14px;
             border-radius: 5px;
             cursor: pointer;
             text-decoration: none;
             padding: 10px;
-            background-color: #fafafa;
+            background-color: #feefc3;
         }

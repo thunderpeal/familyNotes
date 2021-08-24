@@ -1,22 +1,33 @@
 .note-form{
+
+  font-size: 18px;
   overflow: hidden;
-  text-align: left;
+  text-align: center;
   position: relative;
-  display: inline-block;
   border: 1px solid #fdd663;
   border-radius: 5px;
-  margin: 10px;
-  height: 200px;
-  width:  306px;
+
+  height: 245px;
+  width:  227px;
   background-color: #feefc3;
   -webkit-box-shadow: 2px 2px 13px -4px rgba(0,0,0,0.21);
   box-shadow: 2px 2px 13px -4px rgba(0,0,0, 0.21);
 }
 
 .note-form .header-bar{
-   color: white;
-  padding: 10px;
+  color: white;
+  width: 100%;
   margin: 0;
   border-radius: 5px 5px 0 0;
   background-color: #fdd663;
+}
+
+.note-form textarea{
+  background-color: #feefc3;
+  font-size: 18px;
+  height: 205px;
+  width:  200px;
+  margin: 10px;
+  border: none;
+
 }

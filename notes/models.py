@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 
 
@@ -44,3 +43,9 @@ class SComment(models.Model):
 
     class Meta:
         ordering = ['datetime']
+
+
+class GroupColor(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    group = models.ForeignKey(NoteGroup, on_delete=models.CASCADE)
+    color = models.CharField(max_length=6)
