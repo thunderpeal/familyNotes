@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
 from django.contrib.auth.views import LoginView, LogoutView
-from .forms import SignUpForm
+from .forms import SignUpForm, CustomAuthForm
 from django.contrib.auth import login
 
 
@@ -31,6 +31,7 @@ class UserRegistration(FormView):
 
 class CustomLoginView(LoginView):
     template_name = 'basic/user_login.html'
+    form_class = CustomAuthForm
     fields = '__all__'
     redirect_authenticated_user = True
     success_url = reverse_lazy('notes')

@@ -6,9 +6,9 @@
 
     <title>{% block title %}{% endblock %} — Family Notes</title>
 
+    <link rel="icon" type="image/png" href="{% static "notes/images/icons/favicon.ico" %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'notes/css/style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'notes/css/dropMenu.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'notes/css/drag.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'notes/css/note-form.css' %}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,7 +29,7 @@
 <div class="con">
 
 <div class="topnav">
-    <div id="welcome">
+    <div id="welcome" class="welcome">
         <a>Welcome, {{ request.user }}!</a>
     </div>
 
@@ -76,11 +76,12 @@
 <script>
     'use strict'
     document.getElementById("defaultOpen").click();
+    $('#welcome').css('width', '452');
     setTimeout(function(){
         let welcome = document.getElementById('welcome');
         let rightNav = document.getElementsByClassName('right-nav')[0];
         welcome.style.width = rightNav.offsetWidth + 'px';
-    }, 250);
+    }, 1000);
 </script>
 </body>
 </html>

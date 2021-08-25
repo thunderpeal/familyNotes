@@ -37,6 +37,11 @@ html, body{
   color: white;
 }
 
+.welcome{
+  overflow: hidden;
+  max-width: 600px;
+}
+
 .project-name{
   font-size: 26px;
 }
@@ -92,17 +97,21 @@ html, body{
 
 .note{
   resize: both;
+  max-height: 500px;
+  max-width: 500px;
+
+  position: absolute;
   overflow-y: auto;
   word-break: break-word;
   font-size: 18px;
   text-align: left;
-  position: relative;
+
   display: inline-block;
   border: 1px solid #fdd663;
   border-radius: 5px;
   margin: 10px;
   height: 270px;
-  
+
   width:  227px;
   background-color: #feefc3;
   -webkit-box-shadow: 2px 2px 13px -4px rgba(0,0,0,0.21);

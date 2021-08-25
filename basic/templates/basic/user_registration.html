@@ -1,14 +1,54 @@
 {% extends 'basic/basic.html' %}
-{% block title %}
-    Registration
-    {% endblock %}
-{% block content %}
 
-<h1>Register</h1>
-<form method="POST" action="">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Register">
-</form>
-    <p> Already registered? <a href="{% url 'login' %}">Login</a></p>
+{% block title %}Sign up{% endblock title %}
+{% block style %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
+    <script>
+        $(function (){
+            let elem = document.querySelector(".flex-col-c");
+            console.log(elem);
+            elem.classList.add('p-t-100');
+            elem.classList.remove('p-t-170');
+        })
+    </script>
+{% endblock %}
+{% block content %}
+    <form method="POST" action="" class="login100-form validate-form p-l-55 p-r-55 p-t-178">
+        {% csrf_token %}
+        <span class="login100-form-title">
+            Sign Up
+        </span>
+
+        <div class="wrap-input100 validate-input m-b-16" data-validate="Please enter username">
+            {{ form.username }}
+            <span class="focus-input100"></span>
+        </div>
+
+        <div class="wrap-input100 validate-input m-b-16" data-validate = "Please enter password">
+            {{ form.password1 }}
+            <span class="focus-input100"></span>
+        </div>
+
+        <div class="wrap-input100 validate-input m-b-57" data-validate = "Please enter password">
+            {{ form.password2 }}
+            <span class="focus-input100"></span>
+        </div>
+
+        <div class="container-login100-form-btn">
+            <button class="login100-form-btn">
+                Sign up
+            </button>
+        </div>
+
+        <div class="flex-col-c p-t-170 p-b-40">
+            <span class="txt1 p-b-9">
+                Already registered?
+            </span>
+
+            <a href="{% url 'login' %}" class="txt3">
+                Sign in now
+            </a>
+        </div>
+    </form>
 {% endblock content %}

@@ -12,6 +12,7 @@ Notes
 <div id="home" class="tabcontent">
   {% if group_notes_list %}
         {% for note in group_notes_list %}
+
             <div id="draggable" class="ui-widget-content draggable note resizable">
                 <div class="header-bar">
                     <div class="header-links">
@@ -27,6 +28,7 @@ Notes
                 <div class="note-message" style="padding: 5px 10px">
                     {{ note.message }}
                 </div>
+
 
             </div><!--
        -->{% endfor %}
