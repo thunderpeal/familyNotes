@@ -4,7 +4,7 @@ Create Group
 {% endblock %}
 {% block content %}
 
-<h2>Добавление группы</h2><a href="{% url 'group-login' %}">&#8592;Back</a>
+<h2>Добавление группы</h2><a href="{% url 'group-management' %}">&#8592;Back</a>
 <form method="post">
 {% csrf_token %}
 {{ form.as_p }}

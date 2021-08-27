@@ -3,20 +3,28 @@
 {% block title %}
 Group Members
 {% endblock %}
+
+{% block style %}
+    <script src="{% static 'notes/js/tabActivity.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'notes/css/dropMenu.css' %}">
+{% endblock %}
+
 {% block content %}
-
+    <div class="tab">
+     {% for group in groups %}
+        <button class="tablinks" onclick="openCity(event, '{{ group }}')">{{ group }}</button>
+    {% endfor %}
+    </div>
     {% for group in groups %}
- <div style="text-align: center;" >
-    <p>
-        Your group name is <i><b>{{ group.name }}</b></i> <br>
-        Your group id is  <i><b>{{ group.id }}</b></i>    <br>
-        {% if request.user == group.admin %}
-             <i><b><a href="{% url 'group-delete' group.id %}">DELETE GROUP</a></b></i>
-        {% endif %}
-
-
-    </p>
-<hr>
+        <div id="{{ group }}" class="tabcontent">
+            <div style="text-align: center;" >
+            <p>
+                Your group name is <i><b>{{ group.name }}</b></i> <br>
+                Your group id is  <i><b>{{ group.id }}</b></i>    <br>
+                {% if request.user == group.admin %}
+                    <i><b><a href="{% url 'group-delete' group.id %}">DELETE GROUP</a></b></i>
+                {% endif %}
+            </p><hr>
         {% for member in groups_members.group %}
             {{ member.username }}
             {% if request.user == group.admin and request.user.id != member.id %}
@@ -28,8 +36,11 @@ Group Members
             {% endif %}
             <br>
         {% endfor %}
+         </div>
+        </div>
    {% endfor %}
 
- </div>
+    <a href="{% url 'group-login' %}">Sign in group</a>
+    <a href="{% url 'group-create' %}">Create group</a>
 {% endblock %}
 

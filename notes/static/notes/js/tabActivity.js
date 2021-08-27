@@ -1,8 +1,7 @@
 'use strict'
 
 function openCity(evt, group) {
-  // Declare all variables
-  let i, tabcontent, tablinks;
+  let tabcontent, tablinks;
 
   // Get all elements with class="tabcontent" and hide them
   tabcontent = document.getElementsByClassName("tabcontent");

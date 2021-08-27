@@ -47,6 +47,7 @@ class NoteForm(forms.ModelForm):
             self.fields.pop('to_whom', None)
             self.fields.pop('group', None)
         else:
+            self.fields['group'].queryset = users_groups
             for group in users_groups:
                 self.fields['to_whom'].queryset = self.fields['to_whom'].queryset | group.members.all()
             if not self.fields['to_whom'].queryset:
