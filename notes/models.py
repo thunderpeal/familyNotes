@@ -2,13 +2,16 @@ from django.db import models
 from django.conf import settings
 
 
-class NoteGroup(models.Model):
+class Group(models.Model):
     id = models.BigAutoField(primary_key=True)
-    group_name = models.CharField(max_length=25)
+    name = models.CharField(max_length=25)
     password = models.CharField(max_length=25)
+    admin = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING, null=True, blank=True,
+                              related_name='admin')
+    members = models.ManyToManyField(settings.AUTH_USER_MODEL, through='Membership', related_name='members_groups')
 
     def __str__(self):
-        return self.group_name
+        return self.name
 
 
 class SNote(models.Model):
@@ -18,9 +21,9 @@ class SNote(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='noteAuthor',
                                blank=True, null=True)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, blank=True, null=True)
     to_whom = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True,
                                 related_name='toWhom')
-    is_for_group = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['datetime']
@@ -45,7 +48,7 @@ class SComment(models.Model):
         ordering = ['datetime']
 
 
-class GroupColor(models.Model):
+class Membership(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    group = models.ForeignKey(NoteGroup, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
     color = models.CharField(max_length=6)

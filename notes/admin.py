@@ -1,11 +1,11 @@
 from django.contrib import admin
 
-from .models import SNote, SComment, NoteGroup
+from .models import SNote, SComment, Group, Membership
 
 
-@admin.register(NoteGroup)
+@admin.register(Group)
 class AdminNoteGroup(admin.ModelAdmin):
-    list_display = ['id', 'group_name']
+    list_display = ['id', 'name']
     search_fields = ['id']
 
 
@@ -16,3 +16,5 @@ class AdminSNote(admin.ModelAdmin):
 
 
 admin.site.register(SComment)
+admin.site.register(Membership)
+

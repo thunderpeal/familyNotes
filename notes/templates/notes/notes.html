@@ -6,33 +6,29 @@ Notes
 
 
 {% block content %}
-    {% if request.user.note_group %}
 
-
-<div id="home" class="tabcontent">
-  {% if group_notes_list %}
-        {% for note in group_notes_list %}
-
-            <div id="draggable" class="ui-widget-content draggable note resizable">
-                <div class="header-bar">
-                    <div class="header-links">
-                        <a id="zUp" class="zUp" href="#">&#8593;</a>
-                        <a class="zValue" href="#">0</a>
-                        <a id="zDown" class="zDown" href="#">&#8595;</a>
-                        <a href="{% url 'add' %}">&#8853;</a>
-                        <a href="{% url 'edit' note.id %}">&#9998;</a>
-                        <a href="{% url 'note-delete' note.id %}">&#215;</a>
+{% if group_notes_list %}
+    {% for group, notes_list in group_notes_list.items %}
+        <div id={{ group }} class="tabcontent">
+            {% if notes_list %}
+                {% for note in notes_list %}
+                    <div id="draggable" class="ui-widget-content draggable note resizable">
+                        <div class="header-bar">
+                            <div class="header-links">
+                                <a id="zUp" class="zUp" href="#">&#8593;</a>
+                                <a class="zValue" href="#">0</a>
+                                <a id="zDown" class="zDown" href="#">&#8595;</a>
+                                <a href="{% url 'add' %}">&#8853;</a>
+                                <a href="{% url 'edit' note.id %}">&#9998;</a>
+                                <a href="{% url 'note-delete' note.id %}">&#215;</a>
+                            </div>
+                        </div>
+                        <div class="note-message" style="padding: 5px 10px">
+                            {{ note.message }}
+                        </div>
                     </div>
-
-                </div>
-                <div class="note-message" style="padding: 5px 10px">
-                    {{ note.message }}
-                </div>
-
-
-            </div><!--
-       -->{% endfor %}
-            <script>
+                {% endfor %}
+                <script>
                 'use strict'
                 let drags = document.querySelectorAll(".note");
                 let dragNum = 0;
@@ -51,18 +47,22 @@ Notes
                 {% endfor %}
 
             </script>
-      <script src="{% static 'notes/js/zIndexSetter.js' %}"></script>
-    {% else %}
-      <div style="text-align: center">
-        <p >No notes are available</p>
-        <a href="{% url 'add' %}">Add one</a>
-      </div>
-    {% endif %}
-<div style="text-align: center">
-</div>
-</div>
+                <script src="{% static 'notes/js/zIndexSetter.js' %}"></script>
+            {% else %}
+                <div style="text-align: center">
+                    <p>No notes are available</p>
+                    <a href="{% url 'add' %}">Add one</a>
+                </div>
 
-<div id="Notes" class="tabcontent">
+                <div style="text-align: center">
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endif %}
+
+
+<div id="home" class="tabcontent">
   {% if my_notes_list %}
         {% for note in my_notes_list %}
             {{ note.message }}
@@ -78,21 +78,6 @@ Notes
  <a href="{% url 'add' %}"><div class="foot fas fa-plus"></div>Add</a>
 </div>
 </div>
-    {% else %}
-        {% if my_notes_list %}
-        {% for note in my_notes_list %}
-            {{ note.message }}
-            <a href="{% url 'edit' note.id %}">Edit</a>
-            <a href="{% url 'note-delete' note.id %}">&#215;</a>
-            <script src={% static 'notes/js/tabActivity.js' %}></script>
-            <br>
-        {% endfor %}
-    {% else %}
-        <p>No notes are available.</p>
-    {% endif %}
-        <div style="text-align: center">
 
-</div>
-{% endif %}
 {% endblock content %}
 

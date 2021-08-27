@@ -5,6 +5,6 @@ from .models import CustomUser
 
 @admin.register(CustomUser)
 class AdminCustomUser(admin.ModelAdmin):
-    list_display = ['username', 'email', 'phone_number', 'note_group']
-    search_fields = ['username', 'note_group', 'email']
-    list_filter = ['note_group']
+    list_display = ['username', 'email', 'phone_number']
+    search_fields = ['username', 'email']
+

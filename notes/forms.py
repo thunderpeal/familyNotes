@@ -1,6 +1,6 @@
 from django.utils.translation import ugettext, ugettext_lazy as _
 from django import forms
-from .models import NoteGroup, SNote
+from .models import Group, SNote
 from basic.models import CustomUser
 from django.db.models import Q
 
@@ -13,8 +13,8 @@ class GroupCreationForm(forms.ModelForm):
     password2 = forms.CharField(label=_("Password Again"), widget=forms.PasswordInput())
 
     class Meta:
-        model = NoteGroup
-        fields = ['group_name', ]
+        model = Group
+        fields = ['name', ]
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
@@ -34,20 +34,20 @@ class GroupCreationForm(forms.ModelForm):
         return group
 
 
-class MembersNoteForm(forms.ModelForm):
+class NoteForm(forms.ModelForm):
     class Meta:
         model = SNote
-        fields = ['heading', 'message', 'to_whom', 'is_for_group']
+        fields = ['heading', 'message', 'group', 'to_whom']
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
-        super(MembersNoteForm, self).__init__(*args, **kwargs)
-        if user.note_group is None:
+        super(NoteForm, self).__init__(*args, **kwargs)
+        users_groups = user.members_groups.all()
+        if not users_groups:
             self.fields.pop('to_whom', None)
-            self.fields.pop('is_for_group', None)
+            self.fields.pop('group', None)
         else:
-            to_members = CustomUser.objects.filter(Q(note_group=user.note_group) & ~Q(username=user.username))
-            if to_members:
-                self.fields['to_whom'].queryset = to_members
-            else:
+            for group in users_groups:
+                self.fields['to_whom'].queryset = self.fields['to_whom'].queryset | group.members.all()
+            if not self.fields['to_whom'].queryset:
                 self.fields.pop('to_whom')

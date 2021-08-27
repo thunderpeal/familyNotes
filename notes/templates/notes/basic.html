@@ -39,23 +39,19 @@
     </div>
 
     <div id="right-nav" class="right-nav">
-        {% if request.user.note_group %}
               <div class="dropdown">
-                <button class="dropbtn">Group
+                <button class="dropbtn">Notes
                     <i class="fa fa-caret-down"></i>
                 </button>
                 <div class="dropdown-content">
-                    <a class="tablinks" onclick="openCity(event, 'home')" id="defaultOpen" href="#">Home</a>
-                    <a class="tablinks" onclick="openCity(event, 'Notes')" href="#">Notes</a>
-                    <a href="#">group 3</a>
-
+                    <a class="tablinks" onclick="openCity(event, 'home')" id="defaultOpen" href="#">My Notes</a>
+                    {% for group in groups %}
+                    <a class="tablinks" onclick="openCity(event, {{ group }})" href="#">{{ group }}</a>
+                    {% endfor %}
                 </div>
               </div>
-            <a href="{% url 'group-members' %}">Members <i class="fa fa-users"></i></a>
-        {% else %}
-            <a href="{% url 'group-login' %}">Group <i class="fa fa-users"></i></a>
-        {% endif %}
 
+        <a href="{% url 'group-members' %}">Groups <i class="fa fa-users"></i></a>
         <a href="{% url 'settings' %}">About <i class="fa fa-cog"></i></a>
         <a  href="{% url 'logout' %}">Exit <i class="fa fa-sign-out"></i></a>
     </div>
