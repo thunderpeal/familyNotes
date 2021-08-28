@@ -1,4 +1,5 @@
 {% extends 'notes/basic.html' %}
+{% load bootstrap4 %}
 {% load static %}
 {% block title %}
 Note Group
@@ -16,9 +17,12 @@ Note Group
         {% endif %}
         <form method="POST" action="">
             {% csrf_token %}
+
             <p>Group id: <input type="number" name="group_id" value="{{ searched_id }}"></p>
             <p>Password: <input type="password" name="password"></p>
-            <input type="submit" value="Login">
+            {% buttons %}
+                <button type="submit" class="btn btn-primary">Submit</button>
+            {% endbuttons %}
         </form>
 
         <p>Or you can create you own one</p>

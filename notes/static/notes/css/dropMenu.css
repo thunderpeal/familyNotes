@@ -1,9 +1,9 @@
-.dropdown {
+.dropdown-js {
   float: left;
   overflow: hidden;
 }
 
-.dropdown .dropbtn {
+.dropdown-js .dropbtn {
   font-size: 20px;
   border: none;
   outline: none;
@@ -52,6 +52,6 @@
 }
 
 /* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {
+.dropdown-js:hover .dropdown-content {
   display: block;
 } 

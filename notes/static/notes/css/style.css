@@ -9,6 +9,7 @@ html, body{
 }
 
 .topnav{
+  color: white;
   font-size: 20px;
   flex: 0 1 auto;
   -webkit-box-shadow: 0 2px 13px -4px rgba(0,0,0,0.9);
@@ -40,6 +41,7 @@ html, body{
 .welcome{
   overflow: hidden;
   max-width: 600px;
+  color: #fff;
 }
 
 .project-name{

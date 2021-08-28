@@ -1,5 +1,10 @@
 {% extends 'notes/basic.html' %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
 {% load static %}
+
+
 {% block title %}
 Group Members
 {% endblock %}
@@ -10,12 +15,19 @@ Group Members
 {% endblock %}
 
 {% block content %}
-    <div class="tab">
-     {% for group in groups %}
-        <button class="tablinks" onclick="openCity(event, '{{ group }}')">{{ group }}</button>
-    {% endfor %}
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Dropdown button
+        </button>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            {% for group in groups %}
+                <button class="tablinks" onclick="openCity(event, '{{ group }}')">{{ group }}</button>
+            {% endfor %}
+        </div>
     </div>
-    {% for group in groups %}
+
+    {% for group, members in groups_members.items %}
         <div id="{{ group }}" class="tabcontent">
             <div style="text-align: center;" >
             <p>
@@ -25,13 +37,15 @@ Group Members
                     <i><b><a href="{% url 'group-delete' group.id %}">DELETE GROUP</a></b></i>
                 {% endif %}
             </p><hr>
-        {% for member in groups_members.group %}
+            <P>{{ groups_members.group}}</P>
+        {% for member in members %}
             {{ member.username }}
+
             {% if request.user == group.admin and request.user.id != member.id %}
-                <a href="{% url 'group-member-delete' member.id %}">Exclude</a>
+                <a href="{% url 'group-member-delete' group.id member.id %}">Exclude</a>
             {% else %}
                 {% if member.id == request.user.id %}
-                    <a href="{% url 'group-member-delete' request.user.id %}">Leave</a>
+                    <a href="{% url 'group-member-delete' group.id request.user.id %}">Leave</a>
                     {% endif %}
             {% endif %}
             <br>
@@ -42,5 +56,9 @@ Group Members
 
     <a href="{% url 'group-login' %}">Sign in group</a>
     <a href="{% url 'group-create' %}">Create group</a>
+
+    <script>
+        document.getElementsByClassName('tablinks')[0].click()
+    </script>
 {% endblock %}
 

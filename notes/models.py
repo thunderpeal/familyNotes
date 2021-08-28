@@ -49,6 +49,7 @@ class SComment(models.Model):
 
 
 class Membership(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='group_members')
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='group_members')
     color = models.CharField(max_length=6)
+    ban = models.BooleanField(default=False)

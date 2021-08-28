@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
-from .models import SNote, Group
+from .models import SNote, Group, Membership
 from basic.models import CustomUser
 from django.db.models import Q
 
@@ -70,39 +70,41 @@ class NoteDelete(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('notes')
 
 
-class GroupMembersList(LoginRequiredMixin, View):
+class GroupManagement(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        groups = self.request.user.members_groups.all()
+        groups = Group.objects.filter(group_members__user=request.user, group_members__ban=False)
+        #groups = self.request.user.members_groups.all()
         if not groups:
-            return redirect('notes')
+            return redirect('group-login')
         groups_members = {}
         for group in groups:
-            groups_members['group'] = group.members.all()
-        context = {'groups': groups, 'groups_members': groups_members}
-        return render(request, 'notes/group_members.html', context=context)
+            members = CustomUser.objects.filter(group_members__group=group, group_members__ban=False)
+            groups_members[group] = members
+        context = {'groups_members': groups_members}
+        return render(request, 'notes/group_management.html', context=context)
 
 
 @login_required
-def group_member_delete(request, user_id):
+def group_member_delete(request, group_id, user_id):
     user = CustomUser.objects.get(id=user_id)
-    if user.group_admin:
-        members = CustomUser.objects.filter(Q(note_group=user.note_group) & Q(group_admin=False))
+    group = Group.objects.get(id=group_id)
+
+    if user != request.user:
+        membership = Membership.objects.get(user=user, group=group)
+        membership.ban = True
+        membership.save()
+    else:
+        membership = Membership.objects.get(user=user, group=group)
+        membership.delete()
+
+    if group.admin == user:
+        members = group.members.all()
         if members:
-            new_admin = members[0]
-            new_admin.group_admin = True
-            new_admin.save()
-            user.note_group = None
+            group.admin = members[0]
+            group.save()
         else:
-            group = user.note_group
-            user.note_group = None
-            user.save()
             group.delete()
-        user.group_admin = False
-        user.save()
-        return redirect('group-login')
-    user.note_group = None
-    user.save()
-    return redirect('group-members')
+    return redirect('group-management')
 
 
 class GroupDelete(LoginRequiredMixin, DeleteView):
@@ -126,23 +128,28 @@ class GroupDelete(LoginRequiredMixin, DeleteView):
 class GroupLoginView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         if request.user.members_groups.all():
-            redirect('group-members')
+            redirect('group-management')
         return render(request, 'notes/group_login.html')
 
     def post(self, request, *args, **kwargs):
         group = Group.objects.filter(id=request.POST['group_id'])
+
         if group:
-            if group[0].password == request.POST['password']:
-                user = request.user
-                user.note_group = group[0]
-                user.save()
-                return redirect('group-members')
-            failure = 'Wrong password.'
+            membership = Membership.objects.filter(user=request.user, group=group[0])
+
+            if membership:
+                if membership[0].ban:
+                    failure = "You've been banned from this group."
+            elif group[0].password == request.POST['password']:
+                group[0].members.add(request.user)
+                return redirect('group-management')
+            else:
+                failure = 'Wrong password.'
         else:
             failure = 'There is no group with given id.'
 
         context = {'failure': failure, 'searched_id': request.POST['group_id']}
-        return render(request, 'notes/group_members.html', context=context)
+        return render(request, 'notes/group_login.html', context=context)
 
 
 class GroupCreate(LoginRequiredMixin, CreateView):
@@ -163,4 +170,3 @@ class CustomTemplateView(LoginRequiredMixin, TemplateView):
 
 def kostyl(request):
     return redirect('welcome-page')
-
