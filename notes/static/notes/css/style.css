@@ -34,10 +34,8 @@ html, body{
   color: white;
 }
 
-.topnav a.active {
-  background-color: inherit;
-  color: white;
-}
+
+
 
 .welcome{
   overflow: hidden;
@@ -51,6 +49,10 @@ html, body{
 
 .right-nav{
   float: right;
+}
+
+.right-nav a:hover{
+  color: #003B4A;
 }
 
 
@@ -173,4 +175,63 @@ html, body{
   text-decoration: none;
   padding: 10px;
   background-color: #feefc3;
+}
+
+.group-sign{
+  width: 50%;
+  margin-bottom: 15px;
+  background-color: #feefc3;
+  border: 3px solid #fdd663;
+  border-radius: 14px;
+  -webkit-box-shadow: 2px 2px 13px -4px rgba(0,0,0,0.21);
+  box-shadow: 2px 2px 13px -4px rgba(0,0,0, 0.21);
+}
+
+.group-sign a{
+  text-decoration: none;
+  color: #4871b5;
+}
+
+.group-sign a:hover{
+  color: #003B4A;
+  font-weight: 700;
+}
+
+.members-container{
+  padding-top:15px;
+  border-top: 1px solid #1F4788;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.members{
+  text-align: left;
+}
+
+.container-sign{
+
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center
+}
+
+.btn{
+    color: #4871b5;
+    background-color: #feefc3;
+    border: 3px solid #fdd663;
+  border-radius: 14px;
+  -webkit-box-shadow: 2px 2px 13px -4px rgba(0,0,0,0.21);
+  box-shadow: 2px 2px 13px -4px rgba(0,0,0, 0.21);
+}
+
+.dropdown-menu{
+    background-color: #feefc3;
+}
+
+.dropdown-item .active{
+    background-color: #fdd663;
 }

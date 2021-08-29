@@ -1,0 +1,27 @@
+{% extends 'notes/basic.html' %}
+{% block title %}
+Create Note
+{% endblock %}
+{% block content %}
+    <div style="text-align: center;">
+        <h5>Note personal send<a href="{% url 'group-management' %}">&#8592;Back</a></h5>
+        <p>You are going to write a note to {{ member }}. </p>
+    </div>
+
+    <div style="display: flex; justify-content: center">
+        <form method="post">
+        {% csrf_token %}
+            <div class="note-form">
+                <div class="header-bar"></div>
+                {{ form.message }}
+            </div><br>
+
+            <div style="display: flex; justify-content: space-between">
+                <div>
+                    <input style="height: 100%" class="button" type="submit" value="submit">
+                </div>
+            </div>
+
+        </form>
+    </div>
+{% endblock %}

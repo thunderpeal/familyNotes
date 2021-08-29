@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import NoteCreate, NoteUpdate, NotesLists, NoteDelete, GroupManagement, group_member_delete, \
-    GroupDelete, GroupCreate, GroupLoginView, kostyl, CustomTemplateView, BanManagement, RestoreMember
+from .views import NoteCreate, NoteUpdate, NotesLists, NoteDelete, GroupManagement, group_member_delete, kostyl,\
+    GroupDelete, GroupCreate, GroupLoginView, CustomTemplateView, BanManagement, RestoreMember, NoteCreatePersonal
 
 urlpatterns = [
     path('settings/', CustomTemplateView.as_view(), name='settings'),
@@ -12,6 +12,7 @@ urlpatterns = [
     path('group-management/', GroupManagement.as_view(), name='group-management'),
     path('group-login/', GroupLoginView.as_view(), name='group-login'),
     path('note-delete/<int:pk>/', NoteDelete.as_view(), name='note-delete'),
+    path('note-create/<int:member_id>/', NoteCreatePersonal.as_view(), name='note-create-personal'),
     path('note-create/', NoteCreate.as_view(), name='add'),
     path('note-edit/<int:pk>/', NoteUpdate.as_view(), name='edit'),
     path('notes/', NotesLists.as_view(), name='notes'),

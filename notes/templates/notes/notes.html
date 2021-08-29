@@ -48,7 +48,6 @@ Notes
                     </div>
                 {% endfor %}
 
-                <script src="{% static 'notes/js/zIndexSetter.js' %}"></script>
             {% else %}
                 <div style="text-align: center">
                     <p>No notes are available</p>
@@ -82,7 +81,7 @@ Notes
                 </div>
             </div>
         {% endfor %}
-      <script src="{% static 'notes/js/zIndexSetter.js' %}"></script>
+
     {% else %}
       <div style="text-align: center">
           <p>No notes are available</p>
@@ -94,6 +93,7 @@ Notes
     {% endif %}
 </div>
 
+<script src="{% static 'notes/js/zIndexSetter.js' %}"></script>
 <script>
     document.getElementById("defaultOpen").click();
 </script>

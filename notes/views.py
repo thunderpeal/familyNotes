@@ -7,16 +7,19 @@ from django.db.models import Q
 
 from django.views import View
 from django.views.generic import TemplateView
-from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .forms import NoteForm, GroupCreationForm
+from .forms import NoteForm, GroupCreationForm, NoteFormPersonal
 
 
 class NotesLists(LoginRequiredMixin, View):
+    """
+    This view prepares data to notes page: personal notes, all notes from user's groups.
+    Personal notes go to context as 'my_notes_list', groups' notes are put into 'group_notes_list' dictionary.
+    """
     def get(self, request):
         context = {}
         groups = self.request.user.members_groups.all()
@@ -50,7 +53,35 @@ class NoteCreate(LoginRequiredMixin, CreateView):
         return kwargs
 
 
+class NoteCreatePersonal(LoginRequiredMixin, CreateView):
+    """
+    This view is used to send a note to a certain person (from one of the user's groups).
+    It will be put in 'my_notes_list' list in NotesLists view.
+    """
+    template_name = 'notes/note_create_personal.html'
+    success_url = reverse_lazy('notes')
+    form_class = NoteFormPersonal
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        form.instance.to_whom = CustomUser.objects.get(id=self.kwargs.pop('member_id'))
+        return super(NoteCreatePersonal, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        member = CustomUser.objects.get(id=self.kwargs.pop('member_id'))
+        context['member'] = member
+
+        return context
+
+
 class NoteUpdate(LoginRequiredMixin, UpdateView):
+    """
+    This view is used to update certain note's data: message, group or receiver.
+    If user is not present in any group then it's only available to update message field.
+
+    Heading field is currently unused in ui.
+    """
     model = SNote
     fields = ['heading', 'message', 'group', 'to_whom']
     success_url = reverse_lazy('notes')
@@ -68,6 +99,10 @@ class NoteDelete(LoginRequiredMixin, DeleteView):
 
 
 class GroupManagement(LoginRequiredMixin, View):
+    """
+    This view is used to manage all the user's groups. Here he can enter or create new ones (via links to other views),
+    view certain group's information: name, id (needed to invite new members), current members of the group.
+    """
     def get(self, request, *args, **kwargs):
         groups = Group.objects.filter(group_members__user=request.user, group_members__ban=False)
         if not groups:
@@ -82,6 +117,11 @@ class GroupManagement(LoginRequiredMixin, View):
 
 @login_required
 def group_member_delete(request, group_id, user_id):
+    """
+    This view is used to delete certain user of a group. It's also used to leave group. If user to leave is admin
+    of the group, then new admin will be chosen from left users of group. If there are no left users, then group
+    is deleted with no saving data (notes, members and etc).
+    """
     user = CustomUser.objects.get(id=user_id)
     group = Group.objects.get(id=group_id)
 
