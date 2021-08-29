@@ -15,6 +15,10 @@ class AdminSNote(admin.ModelAdmin):
     list_filter = ['to_whom', 'author', 'datetime']
 
 
-admin.site.register(SComment)
-admin.site.register(Membership)
+@admin.register(Membership)
+class AdminMembership(admin.ModelAdmin):
+    search_fields = ['user', 'group']
+    list_filter = ['user', 'group', 'ban']
 
+
+admin.site.register(SComment)

@@ -1,8 +1,6 @@
-from django.utils.translation import ugettext, ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _
 from django import forms
 from .models import Group, SNote
-from basic.models import CustomUser
-from django.db.models import Q
 
 
 class GroupCreationForm(forms.ModelForm):
@@ -50,7 +48,5 @@ class NoteForm(forms.ModelForm):
             self.fields['group'].queryset = users_groups
             for group in users_groups:
                 self.fields['to_whom'].queryset = self.fields['to_whom'].queryset.union(group.members.all())
-
-
             if not self.fields['to_whom'].queryset:
                 self.fields.pop('to_whom')
