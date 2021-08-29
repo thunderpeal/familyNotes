@@ -16,16 +16,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import NoteForm, GroupCreationForm
 
 
-class NotesLists(LoginRequiredMixin, ListView):
-    model = SNote
-    template_name = "notes/notes.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+class NotesLists(LoginRequiredMixin, View):
+    def get(self, request):
+        context = {}
         groups = self.request.user.members_groups.all()
         if groups:
             context['groups_available'] = True
-            group_notes = dict()
+            group_notes = {}
             for group in groups:
                 notes_per_g = SNote.objects.filter(Q(group=group))
                 group_notes[group] = notes_per_g
@@ -35,7 +32,7 @@ class NotesLists(LoginRequiredMixin, ListView):
         my_notes_list = SNote.objects.filter((Q(to_whom=self.request.user) | Q(to_whom=None, author=self.request.user))
                                           & Q(group=None))
         context['my_notes_list'] = my_notes_list
-        return context
+        return render(request, 'notes/notes.html', context=context)
 
 
 class NoteCreate(LoginRequiredMixin, CreateView):
@@ -73,14 +70,13 @@ class NoteDelete(LoginRequiredMixin, DeleteView):
 class GroupManagement(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         groups = Group.objects.filter(group_members__user=request.user, group_members__ban=False)
-        #groups = self.request.user.members_groups.all()
         if not groups:
             return redirect('group-login')
         groups_members = {}
         for group in groups:
             members = CustomUser.objects.filter(group_members__group=group, group_members__ban=False)
             groups_members[group] = members
-        context = {'groups_members': groups_members}
+        context = {'groups_members': groups_members, 'groups': groups}
         return render(request, 'notes/group_management.html', context=context)
 
 
@@ -105,6 +101,25 @@ def group_member_delete(request, group_id, user_id):
         else:
             group.delete()
     return redirect('group-management')
+
+
+class BanManagement(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        group = Group.objects.get(id=kwargs['group_id'])
+        banned_members = CustomUser.objects.filter(group_members__group=group, group_members__ban=True)
+        context = {'banned_members': banned_members, 'group': group}
+        return render(request, 'notes/ban-management.html', context=context)
+
+
+class RestoreMember(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        group = Group.objects.get(id=kwargs['group_id'])
+        user = CustomUser.objects.get(id=kwargs['user_id'])
+        membership = Membership.objects.get(user=user, group=group)
+        membership.ban = False
+        membership.save()
+
+        return redirect('ban-management', group_id=group.id)
 
 
 class GroupDelete(LoginRequiredMixin, DeleteView):
@@ -133,7 +148,7 @@ class GroupLoginView(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
         group = Group.objects.filter(id=request.POST['group_id'])
-
+        failure = "Need password"
         if group:
             membership = Membership.objects.filter(user=request.user, group=group[0])
 

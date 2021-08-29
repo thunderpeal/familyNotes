@@ -1,0 +1,16 @@
+{% extends 'notes/basic.html' %}
+
+
+{% block content %}
+    <div style="text-align: center; margin-top: 20px">
+    <h5><a href="{% url 'group-management' %}">&#8592;Back</a> Banned group (id {{ group.id }}) members </h5>
+    {% if banned_members %}
+        {% for banned_member in banned_members %}
+            <p>{{ banned_member }} <a href="{% url 'restore-member' group.id banned_member.id %}">Restore</a></p>
+        {% endfor %}
+    {% else %}
+        <br><br>
+        <p>Wohoo! Seems like your bandmates behave decently</p>
+    {% endif %}
+</div>
+{% endblock %}

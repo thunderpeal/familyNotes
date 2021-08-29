@@ -14,8 +14,8 @@ html, body{
   flex: 0 1 auto;
   -webkit-box-shadow: 0 2px 13px -4px rgba(0,0,0,0.9);
   box-shadow: 0 2px 13px -4px rgba(0,0,0, 0.9);
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding-top: 7px;
+  padding-bottom: 7px;
   background: #4871b5;
   background: -webkit-linear-gradient(to right, #4871b5, #1F4788, #4871b5);
   background: linear-gradient(to right, #4871b5, #1F4788, #4871b5);
@@ -23,6 +23,7 @@ html, body{
   display: flex;
   justify-content: space-between;
   align-items: center;
+
 }
 
 .topnav a {
@@ -56,6 +57,7 @@ html, body{
 .main-container{
   flex: 1 1 auto;
   margin: 0 10px;
+
 
 }
 

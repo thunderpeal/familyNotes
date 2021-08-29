@@ -3,10 +3,18 @@
 Group Deletion Confirmation
 {% endblock %}
 {% block content %}
-    <a href="{% url 'group-login' %}">&#8592;Back</a>
+    <div style="text-align: center;">
+    <a href="{% url 'group-management' %}">&#8592;Back</a>
     <form method="post">
         {% csrf_token %}
+        <p>You are going to delete group {{ group }} (id: {{ group.id }}). <br>
+            All the users will be automatically excluded from it. <br>
+            All the data will be deleted. <br>
+            !You will never restore existing notes!<br>
+        </p>
         <p>Are you sure you want to delete "{{ group }}"?</p>
     <input type="submit" value="Confirm">
+
 </form>
+    </div>
 {% endblock %}

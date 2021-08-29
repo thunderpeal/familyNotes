@@ -49,6 +49,7 @@ class NoteForm(forms.ModelForm):
         else:
             self.fields['group'].queryset = users_groups
             for group in users_groups:
-                self.fields['to_whom'].queryset = self.fields['to_whom'].queryset | group.members.all()
+                self.fields['to_whom'].queryset = (self.fields['to_whom'].queryset | group.members.all()).distinct()
+
             if not self.fields['to_whom'].queryset:
                 self.fields.pop('to_whom')

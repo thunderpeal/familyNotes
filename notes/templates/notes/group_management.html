@@ -1,7 +1,5 @@
 {% extends 'notes/basic.html' %}
-{% load bootstrap4 %}
-{% bootstrap_css %}
-{% bootstrap_javascript jquery='full' %}
+
 {% load static %}
 
 
@@ -15,50 +13,79 @@ Group Members
 {% endblock %}
 
 {% block content %}
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown button
-        </button>
+    <div style="display: flex; height: 100%;">
 
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <div style="width: 20%; text-align: center; border-right: 1px solid #1F4788; height: 100%">
+    <div class="dropdown" style="margin-top: 10px">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Select group
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             {% for group in groups %}
-                <button class="tablinks" onclick="openCity(event, '{{ group }}')">{{ group }}</button>
+                <li><button class="tablinks dropdown-item" onclick="openCity(event, '{{ group }}')">{{ group }}</button></li>
             {% endfor %}
-        </div>
+        </ul>
     </div>
+    </div>
+
+    <div style="width: 60%">
+    <div style="margin-top: 10px">
 
     {% for group, members in groups_members.items %}
         <div id="{{ group }}" class="tabcontent">
             <div style="text-align: center;" >
-            <p>
-                Your group name is <i><b>{{ group.name }}</b></i> <br>
-                Your group id is  <i><b>{{ group.id }}</b></i>    <br>
+            <h5>
+                Group: <i><b>{{ group.name }}</b></i>&nbsp;&nbsp;&nbsp;
+                (id: <i><b>{{ group.id }}</b></i>)
+            </h5>
+            <div style="display: flex; justify-content: space-between">
                 {% if request.user == group.admin %}
-                    <i><b><a href="{% url 'group-delete' group.id %}">DELETE GROUP</a></b></i>
+                    <div style="margin-left: 20px">
+                        <a href="{% url 'ban-management' group.id %}">Manage banned members</a><br>
+                    </div>
+                    <div style="margin-right: 20px">
+                        <i><b><a class="link-danger" href="{% url 'group-delete' group.id %}">Delete group</a></b></i>
+                    </div>
                 {% endif %}
-            </p><hr>
-            <P>{{ groups_members.group}}</P>
+            </div>
+            <hr>
+            <h5>Group members:</h5>
         {% for member in members %}
-            {{ member.username }}
+            {{ forloop.counter }}. {{ member.username }}
 
             {% if request.user == group.admin and request.user.id != member.id %}
-                <a href="{% url 'group-member-delete' group.id member.id %}">Exclude</a>
+                <a class="link-danger" href="{% url 'group-member-delete' group.id member.id %}">Exclude</a>
             {% else %}
                 {% if member.id == request.user.id %}
-                    <a href="{% url 'group-member-delete' group.id request.user.id %}">Leave</a>
-                    {% endif %}
+                    <a class="link-danger" href="{% url 'group-member-delete' group.id request.user.id %}">Leave</a>
+                {% elif group.admin == member %}
+                    <a href="#" class="link-primary">(admin)</a>
+                {% endif %}
+            {% endif %}
+            {% if request.user.id != member.id %}
+                <a href="{% url 'add' %}"><i class="far fa-sticky-note"></i></a>
             {% endif %}
             <br>
         {% endfor %}
          </div>
         </div>
+
    {% endfor %}
 
-    <a href="{% url 'group-login' %}">Sign in group</a>
-    <a href="{% url 'group-create' %}">Create group</a>
+    </div>
+    </div>
 
+    <div style="width: 20%; text-align: center; border-left: 1px solid #1F4788">
+        <div style="margin-top: 10px">
+            <a href="{% url 'group-login' %}">Sign in group</a><br>
+            <a href="{% url 'group-create' %}">Create group</a>
+        </div>
+    </div>
     <script>
         document.getElementsByClassName('tablinks')[0].click()
     </script>
+
+
+    </div>
 {% endblock %}
 
