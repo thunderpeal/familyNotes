@@ -8,13 +8,15 @@ Note Group
 {% block content %}
 
     <div style="text-align: center; margin-top: 10px">
-        <p>Here you can join a group.<br> You need to enter group id and password. Contact group admin to get them </p>
+        <h5><a href="{% url 'group-management' %}">&#8592;Back</a> Here you can join a group.</h5><p> You need to enter group id and password. Contact group admin to get them </p>
         {% if failure %}
             <ul>
             <li>{{ failure }}</li>
             </ul>
+        {% else %}
+            <br>
         {% endif %}
-        <form method="POST" action="">
+        <form method="POST" action="" class="delete" style="margin-top: 5px">
             {% csrf_token %}
 
             <p>Group id: <input type="number"  name="group_id" value="{{ searched_id }}"></p>
@@ -24,8 +26,8 @@ Note Group
 
         </form>
         <br>
-        <br>
+
         <p>Or you can create you own one</p>
-        <a href="{% url 'group-create' %}">CREATE GROUP FORM</a>
+        <a href="{% url 'group-create' %}">CREATE GROUP</a>
     </div>
 {% endblock %}

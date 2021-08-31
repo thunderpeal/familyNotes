@@ -7,10 +7,10 @@ Create Group
 
 
     <div style="text-align: center; margin-top: 10px">
-    <h4>Добавление группы <a href="{% url 'group-management' %}">&#8592;Back</a></h4>
+    <h5><a href="{% url 'group-management' %}">&#8592;Back</a> Добавление группы</h5>
 
 
-<form method="post" >
+<form method="post" class="delete" style="width: 25%">
 {% csrf_token %}
     {{ form.as_p }}
 
@@ -18,4 +18,5 @@ Create Group
 
 </form>
     </div>
+
 {% endblock %}
