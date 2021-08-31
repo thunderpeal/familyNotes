@@ -61,6 +61,12 @@ Group Members
                             <a style="color: #dc3545" href="{% url 'group-delete' group.id %}">Delete group</a>
                         </div>
                     </div>
+                {% else %}
+                    <div style="display: flex; justify-content: center; width: 100%">
+                        <div class="group-sign" style="margin-right: 20px; width:25%; display: flex; justify-content: center;">
+                            <a href="{% url 'change-color' group.id %}">Change color</a>
+                        </div>
+                    </div>
                 {% endif %}
             </div>
             <div class="members-container">
@@ -82,7 +88,9 @@ Group Members
                         {% endif %}
                     {% else %}
                         <a href="{% url 'note-create-personal' member.id %}"><i class="fas fa-sticky-note"></i></a>
-                        <a class="link-danger" href="{% url 'group-member-delete' group.id request.user.id %}"><i class="fas fa-sign-out-alt"></i></a>
+                        {% if member != group.admin %}
+                            <a class="link-danger" href="{% url 'group-member-delete' group.id request.user.id %}"><i class="fas fa-sign-out-alt"></i></a>
+                        {% endif %}
                     {% endif %}
 
                     <br>
