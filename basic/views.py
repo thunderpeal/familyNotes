@@ -6,7 +6,7 @@ from .forms import SignUpForm, CustomAuthForm
 from django.contrib.auth import login
 
 
-def main(request):
+def welcome_page(request):
     if request.user.is_authenticated:
         return redirect('notes')
     return render(request, 'basic/welcome_page.html')

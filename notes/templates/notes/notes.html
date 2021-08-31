@@ -96,6 +96,15 @@ Notes
 <script src="{% static 'notes/js/zIndexSetter.js' %}"></script>
 <script>
     document.getElementById("defaultOpen").click();
+    let colored_notes;
+    {% for group, membership in memberships.items %}
+        colored_notes = document.querySelectorAll('#{{ group }} > .note');
+
+        for (let note of colored_notes){
+            note.firstElementChild.style.backgroundColor = '#'+ "{{ membership.color }}";
+            console.log(note.firstElementChild.style.backgroundColor)
+        }
+    {% endfor %}
 </script>
 {% endblock content %}
 

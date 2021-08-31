@@ -1,3 +1,5 @@
+import random
+
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
@@ -26,11 +28,15 @@ class NotesLists(LoginRequiredMixin, View):
         if groups:
             context['groups_available'] = True
             group_notes = {}
+            memberships = {}
             for group in groups:
                 notes_per_g = SNote.objects.filter(Q(group=group))
                 group_notes[group] = notes_per_g
+                membership = Membership.objects.get(user=self.request.user, group=group)
+                memberships[group] = membership
 
             context['group_notes_list'] = group_notes
+            context['memberships'] = memberships
 
         my_notes_list = SNote.objects.filter((Q(to_whom=self.request.user) | Q(to_whom=None, author=self.request.user))
                                           & Q(group=None))
@@ -108,10 +114,13 @@ class GroupManagement(LoginRequiredMixin, View):
         if not groups:
             return redirect('group-login')
         groups_members = {}
+        groups_colors = {}
         for group in groups:
             members = CustomUser.objects.filter(group_members__group=group, group_members__ban=False)
+            membership = Membership.objects.get(group=group, user=self.request.user)
             groups_members[group] = members
-        context = {'groups_members': groups_members, 'groups': groups}
+            groups_colors[group.name] = "#" + str(membership.color)
+        context = {'groups_members': groups_members, 'groups': groups, 'groups_colors': groups_colors}
         return render(request, 'notes/group_management.html', context=context)
 
 
@@ -163,19 +172,22 @@ class RestoreMember(LoginRequiredMixin, View):
 
 
 class GroupDelete(LoginRequiredMixin, DeleteView):
+    """
+    This view is used to delete note group. delete method is modified so that we also delete every
+    connection between users and this group (they have many-to-many relationship through the third model).
+    Also all notes related to this group are also deleted.
+    """
     model = Group
     context_object_name = 'group'
-    success_url = reverse_lazy('group-login')
+    success_url = reverse_lazy('group-management')
 
     def delete(self, request, *args, **kwargs):
-        members = CustomUser.objects.filter(note_group=self.request.user.note_group)
-        group_notes = SNote.objects.filter(Q(is_for_group=True) & Q(author__in=members))
-        for note in group_notes:
+        memberships = Membership.objects.filter(group=self.get_object())
+        notes = SNote.objects.filter(group=self.get_object())
+        for membership in memberships:
+            membership.delete()
+        for note in notes:
             note.delete()
-        for member in members:
-            member.note_group = None
-            member.group_admin = False
-            member.save()
 
         return super(GroupDelete, self).delete(request, *args, **kwargs)
 
@@ -215,13 +227,42 @@ class GroupCreate(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.admin = self.request.user
         response = super(GroupCreate, self).form_valid(form)
-        self.object.members.add(self.request.user)
+        Membership.objects.create(user=self.request.user, group=self.object,
+                                  color="{:06x}".format(random.randint(0, 0xFFFFFF)))
         return response
 
 
 class CustomTemplateView(LoginRequiredMixin, TemplateView):
+    """
+    This view is used to display static page that contains information for users to read. Like what is this site,
+    how to use it adn etc
+    """
     template_name = 'notes/settings.html'
 
 
-def kostyl(request):
-    return redirect('welcome-page')
+class GroupNameChange(LoginRequiredMixin, UpdateView):
+    model = Group
+    fields = ['name']
+    success_url = reverse_lazy('group-management')
+
+    def get_object(self, queryset=None):
+        group = Group.objects.get(id=self.kwargs['group_id'])
+        return group
+
+
+class GroupColorChange(LoginRequiredMixin, UpdateView):
+    model = Membership
+    fields = ['color']
+    success_url = reverse_lazy('group-management')
+
+    def get_object(self, queryset=None):
+        group = Group.objects.get(id=self.kwargs['group_id'])
+        membership = Membership.objects.get(group=group, user=self.request.user)
+
+        return membership
+
+from django.template.defaulttags import register
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)

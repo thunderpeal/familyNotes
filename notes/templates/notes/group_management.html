@@ -15,7 +15,7 @@ Group Members
 {% block content %}
     <div style="display: flex; height: 100%;">
 
-    <div style="width: 20%; text-align: center; border-right: 1px solid #1F4788; height: 100%">
+    <div style="width: 15%; text-align: center; border-right: 1px solid #1F4788; height: 100%">
     <div class="dropdown" style="margin-top: 30px">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
             Select group
@@ -28,29 +28,35 @@ Group Members
     </div>
     </div>
 
-    <div style="width: 60%">
+    <div style="width: 70%">
     <div style="margin-top: 10px">
 
     {% for group, members in groups_members.items %}
         <div id="{{ group }}" class="tabcontent">
             <div style="text-align: center;" >
             <h5>
-                Group: <i><b>{{ group.name }}</b></i>&nbsp;&nbsp;&nbsp;
+                Group: <i><b>{{ group.name }}</b></i>
                 (id: <i><b>{{ group.id }}</b></i>)
+                color: <span style="color: {{ groups_colors|get_item:group.name }}">&#9632;</span>
             </h5>
             <div style="display: flex">
                 {% if request.user == group.admin %}
-                    <div style="margin-left: 20px; width:33.3%; display: flex; justify-content: center">
+                    <div style="margin-left: 20px; width:25%; display: flex; justify-content: center">
                         <div class="group-sign" >
                             <a href="{% url 'ban-management' group.id %}">Manage ban</a>
                         </div>
                     </div>
-                    <div style="width:33.3%; display: flex; justify-content: center">
+                    <div style="width:25%; display: flex; justify-content: center">
                         <div class="group-sign">
-                            <a href="#">Change name</a>
+                            <a href="{% url 'change-name' group.id %}">Change name</a>
                         </div>
                     </div>
-                    <div style="margin-right: 20px; width:33.3%; display: flex; justify-content: center;">
+                    <div style="width:25%; display: flex; justify-content: center">
+                        <div class="group-sign">
+                            <a href="{% url 'change-color' group.id %}">Change color</a>
+                        </div>
+                    </div>
+                    <div style="margin-right: 20px; width:25%; display: flex; justify-content: center;">
                         <div class="group-sign" >
                             <a style="color: #dc3545" href="{% url 'group-delete' group.id %}">Delete group</a>
                         </div>
@@ -68,21 +74,16 @@ Group Members
 
                     {% if request.user == group.admin %}
                         <a href="{% url 'note-create-personal' member.id %}"><i class="fas fa-sticky-note"></i></a>
-                        <a class="link-danger" href="{% url 'group-member-delete' group.id request.user.id %}">
+                        <a class="link-danger" href="{% url 'group-member-delete' group.id member.id %}">
                         {% if member == request.user %}
                             <i class="fas fa-sign-out-alt"></i></a>
                         {% else %}
                             <i class="fas fa-times-circle"></i></a>
                         {% endif %}
                     {% else %}
-                        {% if member == request.user %}
-                            <a class="link-danger" href="{% url 'group-member-delete' group.id request.user.id %}"><i class="fas fa-sign-out-alt"></i></a>
-                        {% else %}
-                            <a href="{% url 'note-create-personal' member.id %}"><i class="fas fa-sticky-note"></i></a>
-                        {% endif %}
+                        <a href="{% url 'note-create-personal' member.id %}"><i class="fas fa-sticky-note"></i></a>
+                        <a class="link-danger" href="{% url 'group-member-delete' group.id request.user.id %}"><i class="fas fa-sign-out-alt"></i></a>
                     {% endif %}
-
-
 
                     <br>
                 {% endfor %}
@@ -96,13 +97,13 @@ Group Members
     </div>
     </div>
 
-    <div style="width: 20%; text-align: center; border-left: 1px solid #1F4788">
+    <div style="width: 15%; text-align: center; border-left: 1px solid #1F4788">
         <div class="container-sign">
-            <div class="group-sign">
+            <div class="group-sign" style="width: 70%">
                 <a href="{% url 'group-login' %}">Sign in group</a><br>
             </div>
-            <div class="group-sign">
-                <a href="{% url 'group-create' %}">Create group</a>
+            <div class="group-sign" style="width: 70%">
+                <a href="{% url 'group-create' %}" >Create group</a>
             </div>
         </div>
     </div>

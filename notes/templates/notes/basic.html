@@ -31,15 +31,15 @@
 </style>
 </head>
 <body>
-<div class="con">
+<div id="con" class="con">
 
-<div class="topnav">
+<div id="topnav" class="topnav">
     <div id="welcome" class="welcome">
         <a>Welcome, {{ request.user }}!</a>
     </div>
 
     <div class="project-name">
-        <a href="{% url 'notes' %}" class="active">Family Notes</a>
+        <a href="{% url 'notes' %}" class="active">Group Notes</a>
 
     </div>
 
@@ -54,12 +54,12 @@
 
 </div>
 
-<div class="main-container">
+<div id="main-container" class="main-container">
 {% block content %}
 {% endblock %}
 </div>
 
-<div class="footer">
+<div id="footer" class="footer">
     <div style="padding-right: 10px; ">
    &#169; Слава что-то сделал 2021
         </div>
@@ -68,11 +68,26 @@
 <script>
     'use strict'
     $('#welcome').css('width', '436');
+    let height1 = $(window).height()// + $('#footer').outerHeight();
+    document.getElementById("con").style.height = height1+"px";
     setTimeout(function(){
         let welcome = document.getElementById('welcome');
         let rightNav = document.getElementsByClassName('right-nav')[0];
         welcome.style.width = rightNav.offsetWidth + 'px';
     }, 500);
+
+
+    document.getElementById('main-container').addEventListener('contextmenu', function (e){
+        e.preventDefault();
+        if (document.getElementById('topnav').style.position ==  ''){
+            document.getElementById('topnav').style.top =  "-95px";
+            document.getElementById('topnav').style.position = "absolute";
+        }else{
+            document.getElementById('topnav').style.top =  "0";
+            document.getElementById('topnav').style.position = null;
+        }
+
+    })
 </script>
 
 </body>

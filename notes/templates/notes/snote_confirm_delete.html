@@ -6,11 +6,11 @@
 {% block content %}
     <div class="delete">
 
-    <form method="post">
+    <form method="post" style="padding-bottom: 20px">
         {% csrf_token %}
         <p>Are you sure you want to delete "{{ note }}"?</p>
-        <input style="float: left" type="submit" value="Confirm">
-        <button style="float: right"><a href="{% url 'notes' %}">&#8592;Back</a></button>
+        <input class="btn" style="float: left" type="submit" value="Confirm">
+        <button class="btn" style="float: right"><a href="{% url 'notes' %}">&#8592;Back</a></button>
     </form>
     </div>
 {% endblock %}
