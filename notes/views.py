@@ -1,4 +1,5 @@
 import random
+from django.template.defaulttags import register
 
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -14,7 +15,7 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .forms import NoteForm, GroupCreationForm, NoteFormPersonal
+from .forms import NoteForm, GroupCreationForm, NoteFormPersonal, ColorForm, GroupFormName, GroupFormPass
 
 
 class NotesLists(LoginRequiredMixin, View):
@@ -242,7 +243,7 @@ class CustomTemplateView(LoginRequiredMixin, TemplateView):
 
 class GroupNameChange(LoginRequiredMixin, UpdateView):
     model = Group
-    fields = ['name']
+    form_class = GroupFormName
     success_url = reverse_lazy('group-management')
 
     def get_object(self, queryset=None):
@@ -252,7 +253,7 @@ class GroupNameChange(LoginRequiredMixin, UpdateView):
 
 class GroupColorChange(LoginRequiredMixin, UpdateView):
     model = Membership
-    fields = ['color']
+    form_class = ColorForm
     success_url = reverse_lazy('group-management')
 
     def get_object(self, queryset=None):
@@ -261,7 +262,22 @@ class GroupColorChange(LoginRequiredMixin, UpdateView):
 
         return membership
 
-from django.template.defaulttags import register
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['group'] = Group.objects.get(id=self.kwargs['group_id'])
+        return context
+
+
+class GroupPassChange(LoginRequiredMixin, UpdateView):
+    model = Group
+    form_class = GroupFormPass
+    template_name = 'notes/group_pass_change.html'
+    success_url = reverse_lazy('group-management')
+
+    def get_object(self, queryset=None):
+        group = Group.objects.get(id=self.kwargs['group_id'])
+        return group
+
 
 @register.filter
 def get_item(dictionary, key):

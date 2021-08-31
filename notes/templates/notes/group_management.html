@@ -15,8 +15,8 @@ Group Members
 {% block content %}
     <div style="display: flex; height: 100%;">
 
-    <div style="width: 15%; text-align: center; border-right: 1px solid #1F4788; height: 100%">
-    <div class="dropdown" style="margin-top: 30px">
+    <div style="width: 15%; text-align: center; border-right: 1px solid #1F4788; height: 100%; margin: 0">
+    <div class="dropdown" style="margin-top: 30px; margin-right: 0; margin-left: 0">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
             Select group
         </button>
@@ -41,23 +41,28 @@ Group Members
             </h5>
             <div style="display: flex">
                 {% if request.user == group.admin %}
-                    <div style="margin-left: 20px; width:25%; display: flex; justify-content: center">
-                        <div class="group-sign" >
+                    <div style="margin-left: 20px; width:20%; display: flex; justify-content: center">
+                        <div class="group-sign" style="width: 70%">
                             <a href="{% url 'ban-management' group.id %}">Manage ban</a>
                         </div>
                     </div>
-                    <div style="width:25%; display: flex; justify-content: center">
-                        <div class="group-sign">
+                    <div style="width:20%; display: flex; justify-content: center">
+                        <div class="group-sign"  style="width: 70%">
                             <a href="{% url 'change-name' group.id %}">Change name</a>
                         </div>
                     </div>
-                    <div style="width:25%; display: flex; justify-content: center">
-                        <div class="group-sign">
+                    <div style="width:20%; display: flex; justify-content: center">
+                        <div class="group-sign"  style="width: 70%">
+                            <a href="{% url 'change-pass' group.id %}">Change pass</a>
+                        </div>
+                    </div>
+                    <div style="width:20%; display: flex; justify-content: center">
+                        <div class="group-sign"  style="width: 70%">
                             <a href="{% url 'change-color' group.id %}">Change color</a>
                         </div>
                     </div>
-                    <div style="margin-right: 20px; width:25%; display: flex; justify-content: center;">
-                        <div class="group-sign" >
+                    <div style="margin-right: 20px; width:20%; display: flex; justify-content: center;">
+                        <div class="group-sign"  style="width: 70%">
                             <a style="color: #dc3545" href="{% url 'group-delete' group.id %}">Delete group</a>
                         </div>
                     </div>
@@ -107,10 +112,10 @@ Group Members
 
     <div style="width: 15%; text-align: center; border-left: 1px solid #1F4788">
         <div class="container-sign">
-            <div class="group-sign" style="width: 70%">
+            <div class="group-sign" style="width: 80%">
                 <a href="{% url 'group-login' %}">Sign in group</a><br>
             </div>
-            <div class="group-sign" style="width: 70%">
+            <div class="group-sign" style="width: 80%">
                 <a href="{% url 'group-create' %}" >Create group</a>
             </div>
         </div>

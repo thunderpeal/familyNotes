@@ -1,8 +1,8 @@
 from django.utils.translation import ugettext_lazy as _
 from django import forms
-from .models import Group, SNote
+from .models import Group, SNote, Membership
 from basic.models import CustomUser
-from django.db.models import Q
+from django.forms.widgets import PasswordInput, TextInput
 
 
 class GroupCreationForm(forms.ModelForm):
@@ -61,3 +61,27 @@ class NoteFormPersonal(forms.ModelForm):
     class Meta:
         model = SNote
         fields = ['heading', 'message', 'to_whom']
+
+
+class ColorForm(forms.ModelForm):
+    color = forms.CharField(max_length=6, label='')
+
+    class Meta:
+        model = Membership
+        fields = ['color', ]
+
+
+class GroupFormName(forms.ModelForm):
+    name = forms.CharField(max_length=25, label='')
+
+    class Meta:
+        model = Group
+        fields = ['name', ]
+
+
+class GroupFormPass(forms.ModelForm):
+    password = forms.CharField(widget=PasswordInput(attrs={'placeholder': 'Password', 'name': 'pass'}))
+
+    class Meta:
+        model = Group
+        fields = ['password', ]

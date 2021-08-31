@@ -1,0 +1,11 @@
+{% extends 'notes/basic.html' %}
+{% block title %}Group Password{% endblock title %}
+
+{% block content %}
+    <form method="POST" class="delete">
+
+        {% csrf_token %}
+        {{ form.as_p }}
+    <input type="submit" value="submit">
+    </form>
+{% endblock %}

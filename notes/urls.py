@@ -1,7 +1,7 @@
 from django.urls import path, reverse_lazy
 from .views import NoteCreate, NoteUpdate, NotesLists, NoteDelete, GroupManagement, group_member_delete,\
     GroupDelete, GroupCreate, GroupLoginView, CustomTemplateView, BanManagement, RestoreMember, NoteCreatePersonal, \
-    GroupNameChange, GroupColorChange
+    GroupNameChange, GroupColorChange, GroupPassChange
 from django.views.generic import RedirectView
 
 urlpatterns = [
@@ -11,6 +11,7 @@ urlpatterns = [
     path('group-member-delete/<int:group_id>/<int:user_id>', group_member_delete, name='group-member-delete'),
     path('group-management/<int:group_id>/ban-management/', BanManagement.as_view(), name='ban-management'),
     path('group-management/<int:group_id>/change-name/', GroupNameChange.as_view(), name='change-name'),
+    path('group-management/<int:group_id>/change-pass/', GroupPassChange.as_view(), name='change-pass'),
     path('group-management/<int:group_id>/change-color/', GroupColorChange.as_view(), name='change-color'),
     path('group-management/<int:group_id>/restore-members/<int:user_id>', RestoreMember.as_view(), name='restore-member'),
     path('group-management/', GroupManagement.as_view(), name='group-management'),

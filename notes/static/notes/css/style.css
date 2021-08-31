@@ -237,3 +237,10 @@ html, body{
 .dropdown-item .active{
     background-color: #fdd663;
 }
+
+
+.cheat{
+}
+.cheat p input{
+  width:90px;
+}
