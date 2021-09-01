@@ -1,4 +1,6 @@
 {% extends 'notes/basic.html' %}
+{% load crispy_forms_tags %}
+
 
 {% block title %}
 Create Group
@@ -6,13 +8,23 @@ Create Group
 {% block content %}
 
 
-    <div style="text-align: center; margin-top: 10px">
-    <h5><a href="{% url 'group-management' %}">&#8592;Back</a> Добавление группы</h5>
+    <div style="text-align: center; margin-top: 15px">
+    <h5><a href="{% url 'group-management' %}">&#8592;Back</a> Create your own group</h5>
 
 
-<form method="post" class="delete" style="width: 25%">
+<form method="post" class="delete" style="width: 30%">
 {% csrf_token %}
-    {{ form.as_p }}
+<br>
+    {% for field in form.visible_fields %}
+        <div style="width: 100%; text-align: left; ">
+        {{ field.label_tag }}
+        </div>
+
+        <div class="form-group" style="margin-bottom: 5px">
+        {{ field }}
+        </div>
+    {% endfor %}
+    <br>
 
     <button type="submit" class="btn btn-primary">Submit</button>
 

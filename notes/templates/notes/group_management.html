@@ -17,7 +17,7 @@ Group Members
 
     <div style="width: 15%; text-align: center; border-right: 1px solid #1F4788; height: 100%; margin: 0">
     <div class="dropdown" style="margin-top: 30px; margin-right: 0; margin-left: 0">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
             Select group
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -35,9 +35,10 @@ Group Members
         <div id="{{ group }}" class="tabcontent">
             <div style="text-align: center;" >
             <h5>
-                Group: <i><b>{{ group.name }}</b></i>
-                (id: <i><b>{{ group.id }}</b></i>)
-                color: <span style="color: {{ groups_colors|get_item:group.name }}">&#9632;</span>
+                Group:
+                <span style="color: {{ groups_colors|get_item:group.name }}"><i><b>{{ group.name }}</b></i></span>
+                <span style="color: {{ groups_colors|get_item:group.name }}">&#9632;</span>
+                (id: <b>{{ group.id }}</b>)
             </h5>
             <div style="display: flex">
                 {% if request.user == group.admin %}

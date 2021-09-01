@@ -2,7 +2,7 @@ from django.utils.translation import ugettext_lazy as _
 from django import forms
 from .models import Group, SNote, Membership
 from basic.models import CustomUser
-from django.forms.widgets import PasswordInput, TextInput
+from django.forms.widgets import PasswordInput
 
 
 class GroupCreationForm(forms.ModelForm):
@@ -10,11 +10,16 @@ class GroupCreationForm(forms.ModelForm):
         'password_mismatch': _("The two password fields didn't match."),
     }
     password1 = forms.CharField(label=_("Password"), widget=forms.PasswordInput())
-    password2 = forms.CharField(label=_("Password Again"), widget=forms.PasswordInput())
+    password2 = forms.CharField(label=_("Password Confirm"), widget=forms.PasswordInput())
 
     class Meta:
         model = Group
         fields = ['name', ]
+
+    def __init__(self, *args, **kwargs):
+        super(GroupCreationForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
@@ -37,11 +42,13 @@ class GroupCreationForm(forms.ModelForm):
 class NoteForm(forms.ModelForm):
     class Meta:
         model = SNote
-        fields = ['heading', 'message', 'group', 'to_whom']
+        fields = ['message', 'group', 'to_whom']
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
         super(NoteForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
         users_groups = user.members_groups.all()
         if not users_groups:
             self.fields.pop('to_whom', None)
@@ -70,6 +77,11 @@ class ColorForm(forms.ModelForm):
         model = Membership
         fields = ['color', ]
 
+    def __init__(self, *args, **kwargs):
+        super(ColorForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+
 
 class GroupFormName(forms.ModelForm):
     name = forms.CharField(max_length=25, label='')
@@ -78,10 +90,20 @@ class GroupFormName(forms.ModelForm):
         model = Group
         fields = ['name', ]
 
+    def __init__(self, *args, **kwargs):
+        super(GroupFormName, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+
 
 class GroupFormPass(forms.ModelForm):
-    password = forms.CharField(widget=PasswordInput(attrs={'placeholder': 'Password', 'name': 'pass'}))
+    password = forms.CharField(label='', widget=PasswordInput(attrs={'placeholder': 'Password', 'name': 'pass'}))
 
     class Meta:
         model = Group
         fields = ['password', ]
+
+    def __init__(self, *args, **kwargs):
+        super(GroupFormPass, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'

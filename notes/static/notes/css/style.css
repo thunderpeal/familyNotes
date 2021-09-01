@@ -34,9 +34,6 @@ html, body{
   color: white;
 }
 
-
-
-
 .welcome{
   overflow: hidden;
   max-width: 600px;
@@ -103,19 +100,21 @@ html, body{
 }
 
 .note{
+  min-width: 200px;
+  min-height: 100px;
   resize: both;
   max-height: 500px;
   max-width: 500px;
-
+ overflow-y: hidden;
   position: absolute;
-  overflow-y: auto;
+
   word-break: break-word;
   font-size: 18px;
   text-align: left;
 
   display: inline-block;
-  border: 1px solid #fdd663;
-  border-radius: 5px;
+  border: 1px solid #b9deed;
+  border-radius: 20px 5px 0 0;
   margin: 10px;
   height: 270px;
 
@@ -127,25 +126,27 @@ html, body{
 }
 
 .note:hover{
+  overflow-y: auto;
   z-index: 99999999999999999999999999999999999999999999 !important;
   border: 1px solid red;
-  border-radius: 5px;
+  border-radius:  20px 5px 0 0;
   -webkit-box-shadow: 2px 2px 13px -4px rgba(0,0,0,0.21);
   box-shadow: 2px 2px 13px -4px rgba(0,0,0, 0.21);
 
 }
 .header-bar{
   cursor: move;
-  color: white;
   padding: 10px;
-  padding-left: 110px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
   margin: 0;
-  border-radius: 5px 5px 0 0;
+  border-radius:  20px 5px 0 0;
   background-color: #fdd663;
 }
 
 .header-links{
-  width: 60px;
+  width: 80px;
   display:flex;
   justify-content: space-between;
 }
@@ -155,8 +156,17 @@ html, body{
   text-decoration: none;
 }
 
+.from_whom{
+  overflow: hidden;
+  color:black;
+}
+
+.note-message{
+
+}
+
 .delete{
-  padding: 50px;
+  padding: 30px;
   text-align: center;
 
   margin: 50px auto;
@@ -240,7 +250,26 @@ html, body{
 
 
 .cheat{
+  display: flex;
+  justify-content: center;
 }
 .cheat p input{
-  width:90px;
+  width:110px;
+  text-align: center;
+}
+.cheat1{
+  display: flex;
+  justify-content: center;
+}
+.cheat1 p input{
+  text-align: center;
+  width:420px;
+}
+
+.hack{
+  text-align: center;
+}
+
+.dropdown-toggle:hover{
+  font-weight: 900;
 }

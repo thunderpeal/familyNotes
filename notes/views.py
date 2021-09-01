@@ -90,12 +90,12 @@ class NoteUpdate(LoginRequiredMixin, UpdateView):
     Heading field is currently unused in ui.
     """
     model = SNote
-    fields = ['heading', 'message', 'group', 'to_whom']
+    fields = ['message', 'group', 'to_whom']
     success_url = reverse_lazy('notes')
 
     def get_form_class(self):
         if not self.request.user.members_groups.all():
-            self.fields = ['heading', 'message']
+            self.fields = ['message', ]
         return super(NoteUpdate, self).get_form_class()
 
 
@@ -244,6 +244,7 @@ class CustomTemplateView(LoginRequiredMixin, TemplateView):
 class GroupNameChange(LoginRequiredMixin, UpdateView):
     model = Group
     form_class = GroupFormName
+    template_name = 'notes/group_name_change.html'
     success_url = reverse_lazy('group-management')
 
     def get_object(self, queryset=None):
@@ -254,6 +255,7 @@ class GroupNameChange(LoginRequiredMixin, UpdateView):
 class GroupColorChange(LoginRequiredMixin, UpdateView):
     model = Membership
     form_class = ColorForm
+    template_name = 'notes/group_color_change.html'
     success_url = reverse_lazy('group-management')
 
     def get_object(self, queryset=None):

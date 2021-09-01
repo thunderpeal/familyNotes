@@ -1,12 +1,12 @@
 {% extends 'notes/basic.html' %}
-{% block title %}Group Password{% endblock title %}
+{% block title %}Group Name{% endblock title %}
 
 {% block content %}
     <div style="text-align: center; margin-top: 15px">
-        <h5><a href="{% url 'group-management' %}">&#8592;Back</a> You are changing password for group "{{ group.name }}" (id: {{ group.id }})</h5>
+        <h5><a href="{% url 'group-management' %}">&#8592;Back</a> You are changing the name of group "{{ group.name }}" (id: {{ group.id }})</h5>
     </div>
     <form method="POST" class="delete">
-        <p style="margin-bottom:15px">Enter new password here </p>
+        <p style="margin-bottom:15px">Enter new group name here </p>
         {% csrf_token %}
         <div class="cheat1">
         {{ form.as_p }}

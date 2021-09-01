@@ -1,6 +1,9 @@
-var positions = JSON.parse(localStorage.positions || "{}");
+'use strict'
 $(function () {
-    var d = $("[id=draggable]").attr("id", function (i) {
+    let user1 = document.getElementById('user1').innerText;
+    let positions = JSON.parse(localStorage[user1] || "{}");
+
+    let d = $("[id=draggable]").attr("id", function (i) {
         return "draggable_" + i
     })
     $.each(positions, function (id, pos) {
@@ -13,8 +16,7 @@ $(function () {
         handle: 'div.header-bar',
         stop: function (event, ui) {
             positions[this.id] = ui.position
-            localStorage.positions = JSON.stringify(positions)
+            localStorage[user1] = JSON.stringify(positions)
         }
     });
 });
-

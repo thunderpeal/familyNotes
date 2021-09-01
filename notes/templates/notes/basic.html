@@ -24,7 +24,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
     <script src="{% static 'notes/js/drag.js' %}"></script>
-    <script src="{% static 'notes/js/resize.js' %}"></script>
 
 <style>
 
@@ -35,7 +34,7 @@
 
 <div id="topnav" class="topnav">
     <div id="welcome" class="welcome">
-        <a>Welcome, {{ request.user }}!</a>
+        <a>Welcome, <span id="user1">{{ request.user }}</span>!</a>
     </div>
 
     <div class="project-name">

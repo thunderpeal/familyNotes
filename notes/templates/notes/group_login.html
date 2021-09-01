@@ -7,27 +7,37 @@ Note Group
 
 {% block content %}
 
-    <div style="text-align: center; margin-top: 10px">
+    <div style="text-align: center; margin-top: 15px">
         <h5><a href="{% url 'group-management' %}">&#8592;Back</a> Here you can join a group.</h5><p> You need to enter group id and password. Contact group admin to get them </p>
-        {% if failure %}
-            <ul>
-            <li>{{ failure }}</li>
-            </ul>
-        {% else %}
-            <br>
-        {% endif %}
-        <form method="POST" action="" class="delete" style="margin-top: 5px">
-            {% csrf_token %}
 
-            <p>Group id: <input type="number"  name="group_id" value="{{ searched_id }}"></p>
-            <p>Password: <input type="password"  name="password"></p>
+        <form method="POST" action="" class="delete" style="margin-top: 5px; padding: 20px 30px">
+            {% if failure %}
+                <ul>
+                    <li>{{ failure }}</li>
+                </ul>
+            {% else %}
+                <br>
+            {% endif %}
+            {% csrf_token %}
+            <div class="form-group" style="margin-bottom: 5px">
+                <div style="width: 100%; text-align: left">
+                    Group id:
+                </div>
+             <input class="form-control" type="number"  name="group_id" value="{{ searched_id }}">
+            </div>
+
+            <div class="form-group">
+                <div style="width: 100%; text-align: left">
+                    Password:
+                </div>
+                <input type="password" class="form-control" name="password"></p>
+            </div>
 
             <button type="submit" class="btn btn-primary">Submit</button>
 
         </form>
         <br>
 
-        <p>Or you can create you own one</p>
-        <a href="{% url 'group-create' %}">CREATE GROUP</a>
+        <p>Or you can create you own one <br> <a href="{% url 'group-create' %}">CREATE GROUP</a></p>
     </div>
 {% endblock %}
