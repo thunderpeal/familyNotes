@@ -31,8 +31,20 @@ Notes
         <div id={{ group }} class="tabcontent">
             {% if notes_list %}
                 {% for note in notes_list %}
+
                     <div id="draggable" class="ui-widget-content draggable note resizable">
-                        <div class="header-bar">
+                        {% if request.user == note.author %}
+                            <div class="header-bar">
+                    {% else %}
+                            <div class="header-bar" style="background-color: #fd8963">
+                    {% endif %}
+                    <div class="from_whom">
+                        {% if request.user != note.author %}
+                            :{{ note.author }}
+                        {% else %}
+                        {% endif %}
+
+                    </div>
                             <div class="header-links">
                                 <a id="zUp" class="zUp" href="#">&#8593;</a>
                                 <a class="zValue" href="#">0</a>
@@ -41,11 +53,9 @@ Notes
                                 <a href="{% url 'edit' note.id %}">&#9998;</a>
                                 <a href="{% url 'note-delete' note.id %}">&#215;</a>
                             </div>
-                        </div>
-                        <div class="note-message" style="padding: 5px 10px">
-                            {{ note.message }}
-                        </div>
-                    </div>
+                        </div><!--
+                        --><div class="note-message" style="padding: 5px 10px">{{ note.message }}</div><!--
+                    --></div>
                 {% endfor %}
 
             {% else %}
@@ -87,9 +97,7 @@ Notes
                         <a href="{% url 'note-delete' note.id %}">&#215;</a>
                     </div>
                 </div>
-                <div class="note-message" style="padding: 5px 10px">
-                    {{ note.message }}
-                </div>
+                <div class="note-message" style="padding: 5px 10px">{{ note.message }}</div>
             </div>
         {% endfor %}
 
@@ -117,30 +125,6 @@ Notes
     {% endfor %}
 
 
-</script>
-<script>
-'use strict'
-let sizes = JSON.parse(localStorage.sizes || "{}");
-
-setTimeout(function (){
-    $.each(sizes, function (id, s) {
-    console.log(document.getElementById("#" + id))
-    $("#" + id).css('width', s)
-})
-}, 10000)
-
-
-function checkHeightChange() {
-    for (let note=0; note <= {{ group_notes_list|length }}; note++){
-        let elem = document.getElementById('draggable_' + note);
-        let newHeight = elem.offsetHeight;
-        let newWidth = elem.offsetWidth;
-        sizes[elem.id] = newWidth;
-    }
-    localStorage.sizes= JSON.stringify(sizes)
-}
-
-setInterval(checkHeightChange, 5000);
 </script>
 
 {% endblock content %}

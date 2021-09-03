@@ -10,13 +10,19 @@ Group Members
 {% block style %}
     <script src="{% static 'notes/js/tabActivity.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'notes/css/dropMenu.css' %}">
+    <style>
+        body {
+              background: rgb(217,239,249);
+background: linear-gradient(90deg, rgba(217,239,249,1) 0%, rgba(217,239,249,1) 15%, rgba(185,222,237,1) 19%, rgba(185,222,237,1) 81%, rgba(217,239,249,1) 85%, rgba(217,239,249,1) 100%);
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
     <div style="display: flex; height: 100%;">
 
-    <div style="width: 15%; text-align: center; border-right: 1px solid #1F4788; height: 100%; margin: 0">
-    <div class="dropdown" style="margin-top: 30px; margin-right: 0; margin-left: 0">
+    <div style="width: 15%; text-align: center; height: 100%; margin: 0 ">
+    <div class="dropdown" style="margin-top: 44px; margin-right: 0; margin-left: 0">
         <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
             Select group
         </button>
@@ -29,7 +35,7 @@ Group Members
     </div>
 
     <div style="width: 70%">
-    <div style="margin-top: 10px">
+    <div style="margin-top: 15px">
 
     {% for group, members in groups_members.items %}
         <div id="{{ group }}" class="tabcontent">
@@ -76,7 +82,7 @@ Group Members
                 {% endif %}
             </div>
             <div class="members-container">
-                <h5>Group members:</h5>
+                <h5>Members:</h5>
             <div class="members">
                 {% for member in members %}
                     {{ forloop.counter }}. {{ member.username }}
@@ -111,12 +117,12 @@ Group Members
     </div>
     </div>
 
-    <div style="width: 15%; text-align: center; border-left: 1px solid #1F4788">
+    <div style="width: 15%; text-align: center">
         <div class="container-sign">
             <div class="group-sign" style="width: 80%">
                 <a href="{% url 'group-login' %}">Sign in group</a><br>
             </div>
-            <div class="group-sign" style="width: 80%">
+            <div class="group-sign" style="width: 80%; margin-bottom: 0">
                 <a href="{% url 'group-create' %}" >Create group</a>
             </div>
         </div>
