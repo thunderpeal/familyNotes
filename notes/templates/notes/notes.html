@@ -10,12 +10,12 @@ Notes
 {% endblock %}
 
 {% block menu %}
-    <div class="dropdown-js">
+    <div class="dropdown-js" >
         <button class="dropbtn">Notes
             <i class="fa fa-caret-down"></i>
         </button>
 
-        <div class="dropdown-content">
+        <div class="dropdown-content" style="z-index: 10000;">
             <a class="tablinks" id="defaultOpen"  onclick="openCity(event, 'home')" href="#MyNotes">My Notes</a>
             {% for group in groups %}
                 <a class="tablinks" onclick="openCity(event, '{{ group }}')" href="#{{ group }}">{{ group }}</a>
@@ -112,7 +112,6 @@ Notes
     {% endif %}
 </div>
 
-<script src="{% static 'notes/js/zIndexSetter.js' %}"></script>
 <script>
     document.getElementById("defaultOpen").click();
     let colored_notes;

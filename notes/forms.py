@@ -55,11 +55,11 @@ class NoteForm(forms.ModelForm):
             self.fields.pop('group', None)
         else:
             self.fields['group'].queryset = users_groups
-            self.fields['to_whom'].queryset = CustomUser.objects.none()
-            for group in users_groups:
+            self.fields['to_whom'].queryset = CustomUser.objects.distinct("id")
+            '''for group in users_groups:
                 members = CustomUser.objects.filter(group_members__group=group, group_members__ban=False)
                 members = members.exclude(id=user.id)
-                self.fields['to_whom'].queryset = self.fields['to_whom'].queryset.union(members)
+                self.fields['to_whom'].queryset = self.fields['to_whom'].queryset.union(members)'''
             if not self.fields['to_whom'].queryset:
                 self.fields.pop('to_whom')
 
