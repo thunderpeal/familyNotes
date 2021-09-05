@@ -1,4 +1,4 @@
-# group_notes
+# GroupNotes
 Notes service with chat elements using PostgreSQL
 
 Welcome to GroupNotes - a mini scrapbook-based social network!    
