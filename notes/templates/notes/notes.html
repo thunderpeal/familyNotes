@@ -96,7 +96,9 @@ Notes
                         <a class="zValue" href="#">0</a>
                         <a id="zDown" class="zDown" href="#">&#8595;</a>
                         <a href="{% url 'add' %}">&#8853;</a>
-                        <a href="{% url 'edit' note.id %}">&#9998;</a>
+                        {% if request.user == note.author %}
+                            <a href="{% url 'edit' note.id %}">&#9998;</a>
+                        {% endif %}
                         <a href="{% url 'note-delete' note.id %}">&#215;</a>
                     </div>
                 </div>
