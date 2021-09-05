@@ -12,8 +12,8 @@ def welcome_page(request):
     return render(request, 'basic/welcome_page.html')
 
 
-class UserRegistration(FormView):
-    template_name = 'basic/user_registration.html'
+class UserSignUp(FormView):
+    template_name = 'basic/user_signUp.html'
     form_class = SignUpForm
     success_url = reverse_lazy('notes')
 
@@ -21,16 +21,16 @@ class UserRegistration(FormView):
         user = form.save()
         if user is not None:
             login(self.request, user)
-        return super(UserRegistration, self).form_valid(form)
+        return super(UserSignUp, self).form_valid(form)
 
     def get(self, *args, **kwargs):
         if self.request.user.is_authenticated:
             return redirect('notes')
-        return super(UserRegistration, self).get(*args, **kwargs)
+        return super(UserSignUp, self).get(*args, **kwargs)
 
 
-class CustomLoginView(LoginView):
-    template_name = 'basic/user_login.html'
+class CustomSignInView(LoginView):
+    template_name = 'basic/user_signIn.html'
     form_class = CustomAuthForm
     fields = '__all__'
     redirect_authenticated_user = True
@@ -40,5 +40,5 @@ class CustomLoginView(LoginView):
         return reverse_lazy('notes')
 
 
-class CustomLogoutView(LogoutView):
+class CustomSignOutView(LogoutView):
     next_page = reverse_lazy('welcome-page')

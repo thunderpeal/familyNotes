@@ -4,9 +4,19 @@
 {% endblock %}
 
 {% block content %}
- <div style="text-align: center;" >
-    <h2>Welcome to Family Notes!</h2>
-    <a href="{% url 'login' %}">Login</a> <br>
-    <a href="{% url 'register' %}">Register</a>
+ <div style="text-align: center; height: 200px" >
+ <div style="display: flex; flex-flow: column; height: 100%;">
+
+    <div class="welcome-header">
+        <h2>Welcome to GroupNotes!</h2>
+     </div>
+    <div style="flex: 1 1 auto;">
+        <div style="display: flex; justify-content: space-around; align-items: center; height: 100%">
+            <div class="group-sign"><a href="{% url 'login' %}">SIGN IN</a></div>
+            <div class="group-sign"><a href="{% url 'register' %}">SIGN UP</a></div>
+        </div>
+    </div>
+
+ </div>
  </div>
 {% endblock %}
