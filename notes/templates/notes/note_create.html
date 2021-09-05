@@ -6,8 +6,8 @@ Create Note
 
 
 {% block content %}
-    <div style="text-align: center;">
-        <h4>Добавление записки<a href="{% url 'notes' %}">&#8592;Back</a></h4>
+    <div style="text-align: center; margin-top: 15px">
+        <h5><a href="{% url 'notes' %}">&#8592;Back</a> Note add</h5>
     </div>
 
     <div style="display: flex; justify-content: center">
@@ -16,17 +16,16 @@ Create Note
             <div class="note-form">
                 <div class="header-bar"></div>
                 {{ form.message }}
-            </div><br>
-
-            <div style="display: flex; justify-content: space-between">
+            </div>
+            <div>
                 <div>
                     <label>{{ form.group.label}}</label>
-                    {{ form.group}}<br>
+                    {{ form.group}}
                     <label>{{ form.to_whom.label }}</label>
-                    {{ form.to_whom }}<br>
+                    {{ form.to_whom }}
                 </div>
-                <div>
-                    <input style="height: 100%" class="button" type="submit" value="submit">
+                <div style="margin-top: 10px">
+                    <input style="height: 40px" class="button" type="submit" value="submit">
                 </div>
             </div>
 

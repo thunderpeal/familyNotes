@@ -28,7 +28,7 @@ Notes
 {% block content %}
 {% if group_notes_list %}
     {% for group, notes_list in group_notes_list.items %}
-        <div id={{ group }} class="tabcontent">
+        <div id={{ group }} class="tabcontent" style="height: 100%">
             {% if notes_list %}
                 {% for note in notes_list %}
 
@@ -50,7 +50,9 @@ Notes
                                 <a class="zValue" href="#">0</a>
                                 <a id="zDown" class="zDown" href="#">&#8595;</a>
                                 <a href="{% url 'add' %}">&#8853;</a>
-                                <a href="{% url 'edit' note.id %}">&#9998;</a>
+                                {% if request.user == note.author %}
+                                    <a href="{% url 'edit' note.id %}">&#9998;</a>
+                                {% endif %}
                                 <a href="{% url 'note-delete' note.id %}">&#215;</a>
                             </div>
                         </div><!--
@@ -59,20 +61,21 @@ Notes
                 {% endfor %}
 
             {% else %}
-                <div style="text-align: center">
-                    <p>No notes are available</p>
-                    <a href="{% url 'add' %}">Add one</a>
-                </div>
-
-                <div style="text-align: center">
-                </div>
+                <div class="notes-empty">
+      <div>
+          <div style="margin-bottom: 15px">No notes are available</div>
+          <div style="display: flex; justify-content: center">
+          <div class="group-sign" style="width:100px"><a href="{% url 'add' %}">Add one</a></div>
+          </div>
+      </div>
+      </div>
             {% endif %}
         </div>
     {% endfor %}
 {% endif %}
 
 
-<div id="home" class="tabcontent">
+<div id="home" class="tabcontent" style="height: 100%">
   {% if my_notes_list %}
         {% for note in my_notes_list %}
             <div id="draggable" class="ui-widget-content draggable note resizable">
@@ -102,12 +105,13 @@ Notes
         {% endfor %}
 
     {% else %}
-      <div style="text-align: center">
-          <p>No notes are available</p>
-          <a href="{% url 'add' %}">Add one</a>
+      <div class="notes-empty">
+      <div>
+          <div style="margin-bottom: 15px">No notes are available</div>
+          <div style="display: flex; justify-content: center">
+          <div class="group-sign" style="width:100px"><a href="{% url 'add' %}">Add one</a></div>
+          </div>
       </div>
-
-      <div style="text-align: center">
       </div>
     {% endif %}
 </div>
