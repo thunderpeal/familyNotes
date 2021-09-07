@@ -4,7 +4,7 @@ html, body{
   margin: 0;
   font-family: 'Fira Sans', sans-serif;
   font-size: 20px;
-  background-color: #b9deed;
+  background-color: #DAEEF4;
 
 }
 
@@ -16,9 +16,8 @@ html, body{
   box-shadow: 0 2px 13px -4px rgba(0,0,0, 0.9);
   padding-top: 7px;
   padding-bottom: 7px;
-  background: #4871b5;
-  background: -webkit-linear-gradient(to right, #4871b5, #1F4788, #4871b5);
-  background: linear-gradient(to right, #4871b5, #1F4788, #4871b5);
+    background-color: #4859A0;
+
 
   display: flex;
   justify-content: space-between;

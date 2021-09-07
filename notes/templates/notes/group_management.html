@@ -10,19 +10,14 @@ Group Members
 {% block style %}
     <script src="{% static 'notes/js/tabActivity.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'notes/css/dropMenu.css' %}">
-    <style>
-        body {
-              background: rgb(217,239,249);
-background: linear-gradient(90deg, rgba(217,239,249,1) 0%, rgba(217,239,249,1) 15%, rgba(185,222,237,1) 19%, rgba(185,222,237,1) 81%, rgba(217,239,249,1) 85%, rgba(217,239,249,1) 100%);
-        }
-    </style>
+
 {% endblock %}
 
 {% block content %}
     <div style="display: flex; height: 100%;">
 
-    <div style="width: 15%; text-align: center; height: 100%; margin: 0 ">
-    <div class="dropdown" style="margin-top: 44px; margin-right: 0; margin-left: 0">
+    <div style="width: 15%; text-align: center; height: 100%; margin: 0">
+    <div class="dropdown" style="margin-top: 44px; margin-right: 0; margin-left: 0;">
         <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
             Select group
         </button>
@@ -34,42 +29,42 @@ background: linear-gradient(90deg, rgba(217,239,249,1) 0%, rgba(217,239,249,1) 1
     </div>
     </div>
 
-    <div style="width: 70%">
+    <div style="width: 70%; border-right: 2px dashed #4871b5; border-left: 2px dashed #4871b5">
     <div style="margin-top: 15px">
 
     {% for group, members in groups_members.items %}
         <div id="{{ group }}" class="tabcontent">
-            <div style="text-align: center;" >
+            <div style="text-align: center; " >
             <h5>
                 Group:
                 <span style="color: {{ groups_colors|get_item:group.name }}"><i><b>{{ group.name }}</b></i></span>
                 <span style="color: {{ groups_colors|get_item:group.name }}">&#9632;</span>
                 (id: <b>{{ group.id }}</b>)
             </h5>
-            <div style="display: flex">
+            <div style="display: flex; border-bottom: 2px dashed #4871b5">
                 {% if request.user == group.admin %}
                     <div style="margin-left: 20px; width:20%; display: flex; justify-content: center">
-                        <div class="group-sign" style="width: 70%">
+                        <div class="group-sign" style="width: 75%">
                             <a href="{% url 'ban-management' group.id %}">Manage ban</a>
                         </div>
                     </div>
                     <div style="width:20%; display: flex; justify-content: center">
-                        <div class="group-sign"  style="width: 70%">
+                        <div class="group-sign"  style="width: 75%">
                             <a href="{% url 'change-name' group.id %}">Change name</a>
                         </div>
                     </div>
                     <div style="width:20%; display: flex; justify-content: center">
-                        <div class="group-sign"  style="width: 70%">
+                        <div class="group-sign"  style="width: 75%">
                             <a href="{% url 'change-pass' group.id %}">Change pass</a>
                         </div>
                     </div>
                     <div style="width:20%; display: flex; justify-content: center">
-                        <div class="group-sign"  style="width: 70%">
+                        <div class="group-sign"  style="width: 75%">
                             <a href="{% url 'change-color' group.id %}">Change color</a>
                         </div>
                     </div>
                     <div style="margin-right: 20px; width:20%; display: flex; justify-content: center;">
-                        <div class="group-sign"  style="width: 70%">
+                        <div class="group-sign"  style="width: 75%">
                             <a style="color: #dc3545" href="{% url 'group-delete' group.id %}">Delete group</a>
                         </div>
                     </div>
@@ -100,8 +95,11 @@ background: linear-gradient(90deg, rgba(217,239,249,1) 0%, rgba(217,239,249,1) 1
                         {% endif %}
                     {% else %}
                         <a href="{% url 'note-create-personal' member.id %}"><i class="fas fa-sticky-note"></i></a>
-                        {% if member != group.admin %}
-                            <a class="link-danger" href="{% url 'group-member-delete' group.id request.user.id %}"><i class="fas fa-sign-out-alt"></i></a>
+                        {% if member != group.admin  %}
+                            {% if request.user == member %}
+                                <a class="link-danger" href="{% url 'group-member-delete' group.id request.user.id %}"><i class="fas fa-sign-out-alt"></i></a>
+                            {% endif %}
+
                         {% endif %}
                     {% endif %}
 
@@ -117,7 +115,7 @@ background: linear-gradient(90deg, rgba(217,239,249,1) 0%, rgba(217,239,249,1) 1
     </div>
     </div>
 
-    <div style="width: 15%; text-align: center">
+    <div style="width: 15%; text-align: center; " >
         <div class="container-sign">
             <div class="group-sign" style="width: 80%">
                 <a href="{% url 'group-login' %}">Sign in group</a><br>
