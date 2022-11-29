@@ -34,7 +34,14 @@
 
 <div id="topnav" class="topnav">
     <div id="welcome" class="welcome">
-        <a>Welcome, <span id="user1">{{ request.user }}</span>!</a>
+        <div style="width: fit-content; height: 58px"><a href="{% url 'profile' request.user.id %}">Welcome, <span id="user1">{{ request.user }}</span>!</a></div>
+        {% if notifications_length >= 0 %}
+        <div style="align-items: center; display: flex">
+            <div style="background: #fff; border-radius: 15px; width: 20px; height: 20px; font-size: 14px; font-weight: 900">
+                <a style='padding: 0 0 0 6px; color: rgba(89,118,234,100)' href="{% url 'notifications' %}">{{ notifications_length }}</a>
+            </div>
+        </div>
+        {% endif %}
     </div>
 
     <div class="project-name">
@@ -59,9 +66,9 @@
 </div>
 
 <div id="footer" class="footer">
-    <div style="padding-right: 10px; ">
-   &#169; Слава что-то сделал 2021
-        </div>
+    <div class="slavas">
+        &#169; Слава что-то сделал 2022
+    </div>
 </div>
 </div>
 <script>

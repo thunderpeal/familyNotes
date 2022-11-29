@@ -1,14 +1,15 @@
 {% extends 'notes/basic.html' %}
 
 {% block title %}
-Note Group
+    Note Group
 {% endblock %}
 
 
 {% block content %}
 
     <div style="text-align: center; margin-top: 15px">
-        <h5><a href="{% url 'group-management' %}">&#8592;Back</a> Here you can join a group.</h5><p> You need to enter group id and password. Contact group admin to get them </p>
+        <h5><a href="{% url 'group-management' %}">&#8592;Back</a> Here you can join a group.</h5>
+        <p> You need to enter group id and password. Contact group admin to get them </p>
 
         <form method="POST" action="" class="delete" style="margin-top: 5px; padding: 20px 30px">
             {% if failure %}
@@ -23,7 +24,7 @@ Note Group
                 <div style="width: 100%; text-align: left">
                     Group id:
                 </div>
-             <input class="form-control" type="number"  name="group_id" value="{{ searched_id }}">
+                <input class="form-control" type="number" name="group_id" value="{{ searched_id }}">
             </div>
 
             <div class="form-group">

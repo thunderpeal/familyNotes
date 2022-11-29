@@ -8,6 +8,9 @@ $(function () {
     if (us.positions){
         positions = us.positions;
     }
+    if (positions.top < 50) {
+        positions.top = 51;
+    }
     if (us.sizes){
         sizes = us.sizes;
     }

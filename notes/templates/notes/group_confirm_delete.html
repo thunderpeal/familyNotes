@@ -1,22 +1,22 @@
 {% extends 'notes/basic.html' %}
 {% block title %}
-Group Deletion Confirmation
+    Group Deletion Confirmation
 {% endblock %}
 {% block content %}
     <div style="display: flex; justify-content: center; align-items: center">
-            <form method="post" style="width: 38%">
-                {% csrf_token %}
-                <div class="delete" style="text-align: left; width: 100%">
-                    You are going to delete group {{ group }} (id: {{ group.id }}). <br>
-                    All the users will be automatically excluded from it. <br>
-                    All the data will be deleted. <br>
-                    !You will never restore existing notes!<br><br>
-                    Are you sure you want to delete "{{ group }}"?
-                </div>
-                <div >
-                    <input class="btn" style="float: left" type="submit" value="Confirm">
-                    <button class="btn" style="float: right"><a href="{% url 'group-management' %}">&#8592;Back</a></button>
-                </div>
-            </form>
+        <form method="post" style="width: 38%">
+            {% csrf_token %}
+            <div class="delete" style="text-align: left; width: 100%">
+                You are going to delete group {{ group }} (id: {{ group.id }}). <br>
+                All the users will be automatically excluded from it. <br>
+                All the data will be deleted. <br>
+                !You will never restore existing notes!<br><br>
+                Are you sure you want to delete "{{ group }}"?
+            </div>
+            <div>
+                <input class="btn" style="float: left" type="submit" value="Confirm">
+                <button class="btn" style="float: right"><a href="{% url 'group-management' %}">&#8592;Back</a></button>
+            </div>
+        </form>
     </div>
 {% endblock %}

@@ -1,11 +1,10 @@
 from django.urls import path, reverse_lazy
 from .views import NoteCreate, NoteUpdate, NotesLists, NoteDelete, GroupManagement, group_member_delete,\
-    GroupDelete, GroupCreate, GroupLoginView, CustomTemplateView, BanManagement, RestoreMember, NoteCreatePersonal, \
-    GroupNameChange, GroupColorChange, GroupPassChange
+    GroupDelete, GroupCreate, GroupLoginView, BanManagement, RestoreMember, NoteCreatePersonal, \
+    GroupNameChange, GroupColorChange, GroupPassChange, NotificationList
 from django.views.generic import RedirectView
 
 urlpatterns = [
-    path('settings/', CustomTemplateView.as_view(), name='settings'),
     path('group-create', GroupCreate.as_view(), name='group-create'),
     path('group-delete/<int:pk>', GroupDelete.as_view(), name='group-delete'),
     path('group-member-delete/<int:group_id>/<int:user_id>', group_member_delete, name='group-member-delete'),
@@ -21,5 +20,6 @@ urlpatterns = [
     path('note-create/', NoteCreate.as_view(), name='add'),
     path('note-edit/<int:pk>/', NoteUpdate.as_view(), name='edit'),
     path('notes/', NotesLists.as_view(), name='notes'),
+    path('notifications/', NotificationList.as_view(), name='notifications'),
     path('', RedirectView.as_view(url=reverse_lazy('welcome-page'))),
 ]

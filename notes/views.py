@@ -1,21 +1,24 @@
+import datetime
 import random
 from django.template.defaulttags import register
 
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
-from .models import SNote, Group, Membership
+from .models import SNote, Group, Membership, Notification
 from basic.models import CustomUser
 from django.db.models import Q
 
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .forms import NoteForm, GroupCreationForm, NoteFormPersonal, ColorForm, GroupFormName, GroupFormPass
+
+import requests
 
 
 class NotesLists(LoginRequiredMixin, View):
@@ -25,7 +28,11 @@ class NotesLists(LoginRequiredMixin, View):
     """
     def get(self, request):
         context = {}
+        my_notes_list = SNote.objects.filter((Q(to_whom=self.request.user) | Q(to_whom=None, author=self.request.user))
+                                             & Q(group=None))
+        context['group_notes_list'] = {'my_notes_list': my_notes_list}
         groups = self.request.user.members_groups.all()
+
         if groups:
             context['groups_available'] = True
             group_notes = {}
@@ -36,13 +43,33 @@ class NotesLists(LoginRequiredMixin, View):
                 membership = Membership.objects.get(user=self.request.user, group=group)
                 memberships[group] = membership
 
-            context['group_notes_list'] = group_notes
+            context['group_notes_list'].update(group_notes)
             context['memberships'] = memberships
-
-        my_notes_list = SNote.objects.filter((Q(to_whom=self.request.user) | Q(to_whom=None, author=self.request.user))
-                                          & Q(group=None))
-        context['my_notes_list'] = my_notes_list
+        notifications_length = Notification.objects.filter((Q(user=self.request.user) & Q(is_read=False))).count()
+        context['notifications_length'] = notifications_length
         return render(request, 'notes/notes.html', context=context)
+
+
+class NotificationList(LoginRequiredMixin, ListView):
+    """
+    """
+    model = Notification
+    paginate_by = 100
+    template_name = 'notes/notifications.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['now'] = datetime.datetime.now()
+        user_notifications_new = Notification.objects.filter((Q(user=self.request.user) & Q(is_read=False)))
+        user_notifications_old = Notification.objects.filter((Q(user=self.request.user) & Q(is_read=True)))
+        context['types'] = ['new', 'old']
+        notifications_length = user_notifications_new.count()
+        context['notifications'] = {'new': user_notifications_new, 'old': user_notifications_old}
+        context['notifications_length'] = notifications_length
+        for notification in context['notifications']['new']:
+            notification.is_read = True
+            notification.save()
+        return context
 
 
 class NoteCreate(LoginRequiredMixin, CreateView):
@@ -231,14 +258,6 @@ class GroupCreate(LoginRequiredMixin, CreateView):
         Membership.objects.create(user=self.request.user, group=self.object,
                                   color="{:06x}".format(random.randint(0, 0xFFFFFF)))
         return response
-
-
-class CustomTemplateView(LoginRequiredMixin, TemplateView):
-    """
-    This view is used to display static page that contains information for users to read. Like what is this site,
-    how to use it adn etc
-    """
-    template_name = 'notes/settings.html'
 
 
 class GroupNameChange(LoginRequiredMixin, UpdateView):

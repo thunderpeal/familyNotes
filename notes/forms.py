@@ -1,6 +1,6 @@
 from django.utils.translation import ugettext_lazy as _
 from django import forms
-from .models import Group, SNote, Membership
+from .models import Group, SNote, Membership, Notification
 from basic.models import CustomUser
 from django.forms.widgets import PasswordInput
 

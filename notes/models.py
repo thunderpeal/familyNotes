@@ -31,7 +31,7 @@ class SNote(models.Model):
     def __str__(self):
         if self.heading:
             return f'{self.heading}'
-        return 'Записка №' + str(self.id)
+        return 'Note №' + str(self.id)
 
 
 class SComment(models.Model):
@@ -56,3 +56,17 @@ class Membership(models.Model):
 
     def __str__(self):
         return str(self.group) + "-" + str(self.user)
+
+
+class Notification(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='notification_owner')
+    message = models.TextField()
+    datetime = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ['datetime']
+
+    def __str__(self):
+        return str(self.user) + "_notification_" + str(self.id)

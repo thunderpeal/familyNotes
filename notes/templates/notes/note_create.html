@@ -1,7 +1,7 @@
 {% extends 'notes/basic.html' %}
 
 {% block title %}
-Create Note
+    Create Note
 {% endblock %}
 
 
@@ -12,15 +12,15 @@ Create Note
 
     <div style="display: flex; justify-content: center">
         <form method="post">
-        {% csrf_token %}
+            {% csrf_token %}
             <div class="note-form">
                 <div class="header-bar"></div>
                 {{ form.message }}
             </div>
             <div>
                 <div>
-                    <label>{{ form.group.label}}</label>
-                    {{ form.group}}
+                    <label>{{ form.group.label }}</label>
+                    {{ form.group }}
                     <label>{{ form.to_whom.label }}</label>
                     {{ form.to_whom }}
                 </div>

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import SNote, SComment, Group, Membership
+from .models import SNote, SComment, Group, Membership, Notification
 
 
 @admin.register(Group)
@@ -19,6 +19,12 @@ class AdminSNote(admin.ModelAdmin):
 class AdminMembership(admin.ModelAdmin):
     search_fields = ['user', 'group']
     list_filter = ['user', 'group', 'ban']
+
+
+@admin.register(Notification)
+class AdminMembership(admin.ModelAdmin):
+    search_fields = ['user', 'datetime']
+    list_filter = ['user', 'datetime']
 
 
 admin.site.register(SComment)
