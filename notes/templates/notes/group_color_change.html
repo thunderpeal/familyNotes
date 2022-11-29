@@ -3,14 +3,15 @@
 {% endblock %}
 {% block content %}
     <div style="text-align: center; margin-top: 15px">
-        <h5><a href="{% url 'group-management' %}">&#8592;Back</a> You are changing the color of group "{{ group.name }}" (id: {{ group.id }})</h5>
+        <h5><a href="{% url 'group-management' %}">&#8592;Back</a> You are changing the color of group "{{ group.name }}"
+            (id: {{ group.id }})</h5>
     </div>
     <form method="POST" class="delete">
         <p style="margin-bottom:15px">Enter color hex-code (without #) </p>
         {% csrf_token %}
         <div class="cheat">
-        {{ form.as_p }}
+            {{ form.as_p }}
         </div>
-    <input class="btn" type="submit" value="submit">
+        <input class="btn" type="submit" value="submit">
     </form>
 {% endblock %}

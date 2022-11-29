@@ -1,29 +1,29 @@
 {% extends 'notes/basic.html' %}
 
 {% block title %}
-Edit Note
+    Edit Note
 {% endblock %}
 {% block content %}
-<div style="text-align: center; margin-top: 15px; ">
-   <div> <h5><a href="{% url 'notes' %}">&#8592;Back</a> Change note</h5></div>
-    <div style="display: flex; justify-content: center">
-    <form method="post" action="" >
-        <div class="note-form">
-            {% csrf_token %}
-            <div class="header-bar"></div>
-            {{ form.message }}
+    <div style="text-align: center; margin-top: 15px; ">
+        <div><h5><a href="{% url 'notes' %}">&#8592;Back</a> Change note</h5></div>
+        <div style="display: flex; justify-content: center">
+            <form method="post" action="">
+                <div class="note-form">
+                    {% csrf_token %}
+                    <div class="header-bar"></div>
+                    {{ form.message }}
+                </div>
+                <br>
+                <div style="display: flex; ">
+                    <div style="display: flex; flex-direction: column">
+                        {{ form.group }}
+                        {{ form.to_whom }}
+                    </div>
+                    <div>
+                        <input type="submit" class="btn" value="Save changes">
+                    </div>
+                </div>
+            </form>
         </div>
-    <br>
-        <div style="display: flex; ">
-        <div style="display: flex; flex-direction: column">
-        {{ form.group }}
-        {{ form.to_whom }}
-        </div>
-        <div>
-    <input type="submit" class="btn" value="Save changes">
-            </div>
-            </div>
-    </form>
     </div>
-</div>
 {% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'notes/basic.html' %}
+{% load static %}
+{% block title %}
+    Notifications
+{% endblock %}
+
+{% block style %}
+    <script src="{% static 'notes/js/tabActivity.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'notes/css/notification.css' %}">
+{% endblock %}
+
+
+{% block content %}
+    <div style="padding: 20px; display: flex; justify-content: center">
+        <button class='button' id="select-but" onclick="what=!what; func(what)">Show old notifications</button>
+    </div>
+    {% if True %}
+        {% for notifications_type, notification_section in notifications.items %}
+            <div id='{{ notifications_type }}' {% if notifications_type == 'old' %}style="display: none"{% endif %}
+                 class="container mt-5 fade-in">
+                <div class="row">
+                    {% for notification in notification_section %}
+                        <div class="col-sm-12">
+                            <div class="alert fade alert-simple alert-info alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show"
+                                 role="alert" data-brk-library="component__alert">
+                                <div style="display: flex; justify-content: space-between; text-shadow: none">
+                                    <div>
+                                        <i class="start-icon fa fa-info-circle faa-shake animated"></i>
+                                        <strong class="font__weight-semibold"
+                                                style="margin-left: 10px; margin-right: 10px;">New
+                                            note!</strong> {{ notification.message }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <script>
+        let what = true;
+        let func = function (what) {
+            if (what) {
+                document.getElementById('old').style.display = 'none';
+                document.getElementById('new').style.display = 'block';
+                document.getElementById('select-but').innerText = 'Show old notifications'
+            } else {
+                document.getElementById('new').style.display = 'none';
+                document.getElementById('old').style.display = 'block';
+                document.getElementById('select-but').innerText = 'Show new notifications'
+            }
+        }
+    </script>
+{% endblock content %}

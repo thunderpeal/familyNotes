@@ -1,22 +1,21 @@
-{% extends 'notes/basic.html'%}
+{% extends 'notes/basic.html' %}
 {% load static %}
 {% block title %}
-Notes
+    Notes
 {% endblock %}
 
 {% block style %}
     <script src="{% static 'notes/js/tabActivity.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'notes/css/dropMenu.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'notes/css/notifications-notes.css' %}">
 {% endblock %}
 
-{% block menu %}
-    <div class="dropdown-js" >
-        <button class="dropbtn">Notes
-            <i class="fa fa-caret-down"></i>
-        </button>
 
+{% block menu %}
+    <div class="dropdown-js">
+        <button class="dropbtn">Notes<i class="fa fa-caret-down"></i></button>
         <div class="dropdown-content" style="z-index: 10000;">
-            <a class="tablinks" id="defaultOpen"  onclick="openCity(event, 'home')" href="#MyNotes">My Notes</a>
+            <a class="tablinks" id="defaultOpen" onclick="openCity(event, 'my_notes_list')" href="#MyNotes">My Notes</a>
             {% for group in groups %}
                 <a class="tablinks" onclick="openCity(event, '{{ group }}')" href="#{{ group }}">{{ group }}</a>
             {% endfor %}
@@ -26,111 +25,59 @@ Notes
 
 
 {% block content %}
-{% if group_notes_list %}
-    {% for group, notes_list in group_notes_list.items %}
-        <div id={{ group }} class="tabcontent" style="height: 100%">
+    {% if group_notes_list %}
+        {% for group, notes_list in group_notes_list.items %}
+            <div id={{ group }} class="tabcontent" style="height: 100%">
             {% if notes_list %}
                 {% for note in notes_list %}
-
                     <div id="draggable" class="ui-widget-content draggable note resizable">
-                        {% if request.user == note.author %}
-                            <div class="header-bar">
+                    {% if request.user == note.author %}
+                        <div class="header-bar">
                     {% else %}
-                            <div class="header-bar" style="background-color: #fd8963">
+                        <div class="header-bar" style="background-color: #fd8963">
                     {% endif %}
-                    <div class="from_whom">
-                        {% if request.user != note.author %}
-                            :{{ note.author }}
-                        {% else %}
-                        {% endif %}
-
-                    </div>
-                            <div class="header-links">
-                                <a id="zUp" class="zUp" href="#">&#8593;</a>
-                                <a class="zValue" href="#">0</a>
-                                <a id="zDown" class="zDown" href="#">&#8595;</a>
-                                <a href="{% url 'add' %}">&#8853;</a>
-                                {% if request.user == note.author %}
-                                    <a href="{% url 'edit' note.id %}">&#9998;</a>
-                                {% endif %}
-                                <a href="{% url 'note-delete' note.id %}">&#215;</a>
-                            </div>
-                        </div><!--
-                        --><div class="note-message" style="padding: 5px 10px">{{ note.message }}</div><!--
-                    --></div>
+                <div class="from_whom">
+                    {% if request.user != note.author %}:{{ note.author }}{% endif %}
+                </div>
+                <div class="header-links">
+                    <a id="zUp" class="zUp" href="#">&#8593;</a>
+                    <a class="zValue" href="#">0</a>
+                    <a id="zDown" class="zDown" href="#">&#8595;</a>
+                    <a href="{% url 'add' %}">&#8853;</a>
+                    {% if request.user == note.author %}
+                        <a href="{% url 'edit' note.id %}">&#9998;</a>
+                    {% endif %}
+                    <a href="{% url 'note-delete' note.id %}">&#215;</a>
+                </div>
+                </div>
+                <div class="message-wrapper">
+                    <div class="note-message" style="padding: 5px 10px">{{ note.message }}</div>
+                </div>
+                </div>
                 {% endfor %}
-
             {% else %}
                 <div class="notes-empty">
-      <div>
-          <div style="margin-bottom: 15px">No notes are available</div>
-          <div style="display: flex; justify-content: center">
-          <div class="group-sign" style="width:100px"><a href="{% url 'add' %}">Add one</a></div>
-          </div>
-      </div>
-      </div>
-            {% endif %}
-        </div>
-    {% endfor %}
-{% endif %}
-
-
-<div id="home" class="tabcontent" style="height: 100%">
-  {% if my_notes_list %}
-        {% for note in my_notes_list %}
-            <div id="draggable" class="ui-widget-content draggable note resizable">
-                {% if request.user == note.author %}
-                    <div class="header-bar">
-                {% else %}
-                    <div class="header-bar" style="background-color: #fd8963">
-                {% endif %}
-                    <div class="from_whom">
-                        {% if request.user != note.author %}
-                            :{{ note.author }}
-                        {% else %}
-                        {% endif %}
-
-                    </div>
-                    <div class="header-links">
-                        <a id="zUp" class="zUp" href="#">&#8593;</a>
-                        <a class="zValue" href="#">0</a>
-                        <a id="zDown" class="zDown" href="#">&#8595;</a>
-                        <a href="{% url 'add' %}">&#8853;</a>
-                        {% if request.user == note.author %}
-                            <a href="{% url 'edit' note.id %}">&#9998;</a>
-                        {% endif %}
-                        <a href="{% url 'note-delete' note.id %}">&#215;</a>
+                    <div>
+                        <div style="margin-bottom: 15px">No notes are available</div>
+                        <div style="display: flex; justify-content: center">
+                            <div class="group-sign" style="width:100px"><a href="{% url 'add' %}">Add one</a></div>
+                        </div>
                     </div>
                 </div>
-                <div class="note-message" style="padding: 5px 10px">{{ note.message }}</div>
-            </div>
+            {% endif %}
+        </div>
         {% endfor %}
-
-    {% else %}
-      <div class="notes-empty">
-      <div>
-          <div style="margin-bottom: 15px">No notes are available</div>
-          <div style="display: flex; justify-content: center">
-          <div class="group-sign" style="width:100px"><a href="{% url 'add' %}">Add one</a></div>
-          </div>
-      </div>
-      </div>
     {% endif %}
-</div>
 
-<script>
-    document.getElementById("defaultOpen").click();
-    let colored_notes;
-    {% for group, membership in memberships.items %}
-        colored_notes = document.querySelectorAll('#{{ group }} > .note');
-
-        for (let note of colored_notes){
-            note.firstElementChild.style.backgroundColor = '#'+ "{{ membership.color }}";
-        }
-    {% endfor %}
-
-
-</script>
+    <script>
+        document.getElementById("defaultOpen").click();
+        let colored_notes;
+        {% for group, membership in memberships.items %}
+            colored_notes = document.querySelectorAll('#{{ group }} > .note');
+            for (let note of colored_notes) {
+                note.firstElementChild.style.backgroundColor = '#' + "{{ membership.color }}";
+            }
+        {% endfor %}
+    </script>
 
 {% endblock content %}
-

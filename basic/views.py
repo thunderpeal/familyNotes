@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, UpdateView
 from django.contrib.auth.views import LoginView, LogoutView
 from .forms import SignUpForm, CustomAuthForm
 from django.contrib.auth import login
+from .models import CustomUser
+from django.views.generic import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 def welcome_page(request):
@@ -42,3 +45,18 @@ class CustomSignInView(LoginView):
 
 class CustomSignOutView(LogoutView):
     next_page = reverse_lazy('welcome-page')
+
+
+class CustomTemplateView(LoginRequiredMixin, TemplateView):
+    """
+    This view is used to display static page that contains information for users to read. Like what is this site,
+    how to use it adn etc
+    """
+    template_name = 'basic/settings.html'
+
+
+class PersonProfileView(LoginRequiredMixin, UpdateView):
+    model = CustomUser
+    template_name = 'basic/profile.html'
+    fields = ['username', 'email', 'first_name', 'last_name']
+    success_url = reverse_lazy('notes')
