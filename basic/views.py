@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic.edit import FormView, UpdateView
 from django.contrib.auth.views import LoginView, LogoutView
-from .forms import SignUpForm, CustomAuthForm
+from .forms import SignUpForm, CustomAuthForm, AccountSettings
 from django.contrib.auth import login
 from .models import CustomUser
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
+from notes.models import Notification
 
 
 def welcome_page(request):
@@ -52,11 +54,25 @@ class CustomTemplateView(LoginRequiredMixin, TemplateView):
     This view is used to display static page that contains information for users to read. Like what is this site,
     how to use it adn etc
     """
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        notifications_length = Notification.objects.filter((Q(user=self.request.user) & Q(is_read=False))).count()
+        context['notifications_length'] = notifications_length
+        return context
+
     template_name = 'basic/settings.html'
 
 
 class PersonProfileView(LoginRequiredMixin, UpdateView):
+    form_class = AccountSettings
     model = CustomUser
     template_name = 'basic/profile.html'
-    fields = ['username', 'email', 'first_name', 'last_name']
-    success_url = reverse_lazy('notes')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        notifications_length = Notification.objects.filter((Q(user=self.request.user) & Q(is_read=False))).count()
+        context['notifications_length'] = notifications_length
+        return context
+
+    def get_success_url(self):
+        return reverse('profile', args=(self.request.user.id, ))

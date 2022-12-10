@@ -4,11 +4,9 @@
     Note Group
 {% endblock %}
 
-
 {% block content %}
-
-    <div style="text-align: center; margin-top: 15px">
-        <h5><a href="{% url 'group-management' %}">&#8592;Back</a> Here you can join a group.</h5>
+    <div style="text-align: center; margin-top: 35px">
+        <h5>Here you can join a group.</h5>
         <p> You need to enter group id and password. Contact group admin to get them </p>
 
         <form method="POST" action="" class="delete" style="margin-top: 5px; padding: 20px 30px">
@@ -34,11 +32,14 @@
                 <input type="password" class="form-control" name="password"></p>
             </div>
 
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <div style="width: 100%; display: flex; justify-content: space-between">
+                <button class="btn"><a href="{% url 'group-management' %}">&#8592;Back</a></button>
+                <button type="submit" class="btn">Login</button>
+            </div>
 
         </form>
         <br>
 
-        <p>Or you can create you own one <br> <a href="{% url 'group-create' %}">CREATE GROUP</a></p>
+        <p>Or you can create you own one <br> <a style="text-decoration: none" href="{% url 'group-create' %}">CREATE GROUP</a></p>
     </div>
 {% endblock %}

@@ -1,16 +1,19 @@
 {% extends 'notes/basic.html' %}
 {% load static %}
 {% block title %}
-    Deletion Confirmation
+    Confirm delete
 {% endblock %}
 {% block content %}
     <div class="delete">
-
-    <form method="post" style="padding-bottom: 20px">
-        {% csrf_token %}
-        <p>Are you sure you want to delete "{{ note }}"?</p>
-        <input class="btn" style="float: left" type="submit" value="Confirm">
-        <button class="btn" style="float: right"><a href="{% url 'notes' %}">&#8592;Back</a></button>
-    </form>
+        <form method="post">
+            {% csrf_token %}
+            <div>
+                <p>Are you sure you want to delete "{{ note }}"?</p>
+                <div style="display: flex; justify-content: space-between">
+                    <input class="btn" type="submit" value="Confirm">
+                    <button class="btn"><a href="{% url 'notes' %}">&#8592;Back</a></button>
+                </div>
+            </div>
+        </form>
     </div>
 {% endblock %}

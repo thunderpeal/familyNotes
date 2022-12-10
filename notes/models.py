@@ -6,7 +6,7 @@ class Group(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=25)
     password = models.CharField(max_length=25)
-    admin = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING, null=True, blank=True,
+    admin = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True,
                               related_name='admin')
     members = models.ManyToManyField(settings.AUTH_USER_MODEL, through='Membership', related_name='members_groups')
 

@@ -4,8 +4,8 @@
     Create Group
 {% endblock %}
 {% block content %}
-    <div style="text-align: center; margin-top: 15px">
-        <h5><a href="{% url 'group-management' %}">&#8592;Back</a> Create your own group</h5>
+    <div style="text-align: center; margin-top: 35px">
+        <h5>Create your own group</h5>
 
         <form method="post" class="delete" style="width: 30%">
             {% csrf_token %}
@@ -21,7 +21,10 @@
             {% endfor %}
             <br>
 
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <div style="width: 100%; display: flex; justify-content: space-between">
+                <button class="btn"><a href="{% url 'group-management' %}">&#8592;Back</a></button>
+                <button type="submit" class="btn">Create</button>
+            </div>
 
         </form>
     </div>
