@@ -29,5 +29,30 @@
   width:  200px;
   margin: 10px;
   border: none;
+}
 
+.btn:hover {
+    background-color: rgb(106, 136, 255) !important;
+    border-color: rgb(106, 136, 255);
+    color: white;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    background-color: #feefc3;
+}
+
+.form-control:focus-visible {
+    box-shadow: none;
+    background-color: #feefc3;
+    outline: none;
+}
+
+.btn > a {
+    text-decoration: none;
+    color: #4871b5;
+}
+
+.btn:hover > a {
+    color: white;
 }

@@ -1,13 +1,18 @@
 {% extends 'notes/basic.html' %}
 
+{% load static %}
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{% static 'notes/css/note-form.css' %}">
+{% endblock style %}
+
 {% block title %}
     Create Note
 {% endblock %}
 
 
 {% block content %}
-    <div style="text-align: center; margin-top: 15px">
-        <h5><a href="{% url 'notes' %}">&#8592;Back</a> Note add</h5>
+    <div style="text-align: center; margin-top: 35px">
+        <h5>Add note</h5>
     </div>
 
     <div style="display: flex; justify-content: center">
@@ -24,8 +29,9 @@
                     <label>{{ form.to_whom.label }}</label>
                     {{ form.to_whom }}
                 </div>
-                <div style="margin-top: 10px">
-                    <input style="height: 40px" class="button" type="submit" value="submit">
+                <div style="width: 100%; display: flex; justify-content: space-between; margin-top: 15px">
+                    <button class="btn"><a href="{% url 'notes' %}">&#8592;Back</a></button>
+                    <button type="submit" class="btn">Save</button>
                 </div>
             </div>
 

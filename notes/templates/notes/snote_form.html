@@ -1,11 +1,14 @@
 {% extends 'notes/basic.html' %}
-
+{% load static %}
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{% static 'notes/css/note-form.css' %}">
+{% endblock style %}
 {% block title %}
     Edit Note
 {% endblock %}
 {% block content %}
-    <div style="text-align: center; margin-top: 15px; ">
-        <div><h5><a href="{% url 'notes' %}">&#8592;Back</a> Change note</h5></div>
+    <div style="text-align: center; margin-top: 35px; ">
+        <div style="text-align: center; margin-bottom: 35px; "><h5>Change note</h5></div>
         <div style="display: flex; justify-content: center">
             <form method="post" action="">
                 <div class="note-form">
@@ -15,12 +18,9 @@
                 </div>
                 <br>
                 <div style="display: flex; ">
-                    <div style="display: flex; flex-direction: column">
-                        {{ form.group }}
-                        {{ form.to_whom }}
-                    </div>
-                    <div>
-                        <input type="submit" class="btn" value="Save changes">
+                    <div style="width: 100%; display: flex; justify-content: space-between">
+                        <button class="btn"><a href="{% url 'notes' %}">&#8592;Back</a></button>
+                        <button type="submit" class="btn">Save</button>
                     </div>
                 </div>
             </form>

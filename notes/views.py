@@ -79,6 +79,16 @@ class NoteCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
+        if form.cleaned_data.get('to_whom'):
+            to_whom = form.cleaned_data['to_whom']
+            group = form.cleaned_data['group']
+            if to_whom:
+                message = ''
+                message = f'User {self.request.user.username} left you a note! Go check it!'
+                if group:
+                    message = f'User {self.request.user.username} left you a note in group {group}! Go check it!'
+                new_notification = Notification(user=to_whom, message=message, datetime=datetime.datetime.now())
+                new_notification.save()
         return super(NoteCreate, self).form_valid(form)
 
     def get_form_kwargs(self):
@@ -139,6 +149,8 @@ class GroupManagement(LoginRequiredMixin, View):
     """
     def get(self, request, *args, **kwargs):
         groups = Group.objects.filter(group_members__user=request.user, group_members__ban=False)
+        notifications_length = Notification.objects.filter((Q(user=self.request.user) & Q(is_read=False))).count()
+
         if not groups:
             return redirect('group-login')
         groups_members = {}
@@ -148,7 +160,8 @@ class GroupManagement(LoginRequiredMixin, View):
             membership = Membership.objects.get(group=group, user=self.request.user)
             groups_members[group] = members
             groups_colors[group.name] = "#" + str(membership.color)
-        context = {'groups_members': groups_members, 'groups': groups, 'groups_colors': groups_colors}
+        context = {'groups_members': groups_members, 'groups': groups, 'groups_colors': groups_colors,
+                   'notifications_length': notifications_length}
         return render(request, 'notes/group_management.html', context=context)
 
 

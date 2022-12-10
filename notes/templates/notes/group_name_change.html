@@ -2,8 +2,8 @@
 {% block title %}Group Name{% endblock title %}
 
 {% block content %}
-    <div style="text-align: center; margin-top: 15px">
-        <h5><a href="{% url 'group-management' %}">&#8592;Back</a> You are changing the name of group "{{ group.name }}"
+    <div style="text-align: center; margin-top: 35px">
+        <h5>You are changing the name of group "{{ group.name }}"
             (id: {{ group.id }})</h5>
     </div>
     <form method="POST" class="delete">
@@ -12,6 +12,9 @@
         <div class="cheat1">
             {{ form.as_p }}
         </div>
-        <input class="btn" type="submit" value="submit">
+        <div style="width: 100%; display: flex; justify-content: space-between; margin-top: 15px">
+            <button class="btn"><a href="{% url 'group-management' %}">&#8592;Back</a></button>
+            <button type="submit" class="btn">Save</button>
+        </div>
     </form>
 {% endblock %}
